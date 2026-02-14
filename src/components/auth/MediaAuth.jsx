@@ -10,11 +10,11 @@ const MediaAuth = () => {
         <div className="h-[0.2px] w-1/2 bg-gray-200" />
       </section>
       <section className="grid grid-cols-2 gap-4">
-        <button className="flex items-center justify-center gap-1 rounded-xl p-2 shadow-md">
+        <button className="flex items-center justify-center gap-1 rounded-xl p-3 shadow-md">
           <img src={fb} alt="facebook" />
           <span>Facebook</span>
         </button>
-        <button className="flex items-center justify-center gap-1 rounded-xl p-2 shadow-md">
+        <button className="flex items-center justify-center gap-1 rounded-xl p-3 shadow-md">
           <img src={google} alt="google" />
           <span>Google</span>
         </button>
