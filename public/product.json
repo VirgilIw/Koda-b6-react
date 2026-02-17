@@ -7,7 +7,30 @@
       "price": 20000,
       "category": "coffee",
       "rating": 4.8,
-      "image": "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400&h=300&fit=crop"
+      "totalReviews": 230,
+      "reviews": [
+        {
+          "user": "Andi",
+          "comment": "Nutty and smooth, perfect morning drink!",
+          "star": 5
+        },
+        {
+          "user": "Sari",
+          "comment": "The hazelnut flavor is just right, not too sweet.",
+          "star": 5
+        },
+        {
+          "user": "Budi",
+          "comment": "Good but could be a bit stronger.",
+          "star": 4
+        }
+      ],
+      "image": "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400&h=300&fit=crop",
+      "sizes": {
+        "small": 16000,
+        "medium": 20000,
+        "large": 26000
+      }
     },
     {
       "id": 2,
@@ -16,7 +39,30 @@
       "price": 22000,
       "category": "coffee",
       "rating": 4.5,
-      "image": "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400&h=300&fit=crop"
+      "totalReviews": 185,
+      "reviews": [
+        {
+          "user": "Dina",
+          "comment": "So creamy and smooth, love it!",
+          "star": 5
+        },
+        {
+          "user": "Rizky",
+          "comment": "A bit too sweet for me but still good.",
+          "star": 4
+        },
+        {
+          "user": "Putri",
+          "comment": "My go-to coffee every morning.",
+          "star": 5
+        }
+      ],
+      "image": "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400&h=300&fit=crop",
+      "sizes": {
+        "small": 18000,
+        "medium": 22000,
+        "large": 29000
+      }
     },
     {
       "id": 3,
@@ -25,7 +71,30 @@
       "price": 25000,
       "category": "coffee",
       "rating": 4.9,
-      "image": "https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?w=400&h=300&fit=crop"
+      "totalReviews": 412,
+      "reviews": [
+        {
+          "user": "Hana",
+          "comment": "Best caramel macchiato I've ever had!",
+          "star": 5
+        },
+        {
+          "user": "Fajar",
+          "comment": "The caramel drizzle is perfect.",
+          "star": 5
+        },
+        {
+          "user": "Mega",
+          "comment": "Absolutely delicious, a must try!",
+          "star": 5
+        }
+      ],
+      "image": "https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?w=400&h=300&fit=crop",
+      "sizes": {
+        "small": 20000,
+        "medium": 25000,
+        "large": 33000
+      }
     },
     {
       "id": 4,
@@ -34,7 +103,30 @@
       "price": 23000,
       "category": "coffee",
       "rating": 4.7,
-      "image": "https://images.unsplash.com/photo-1534778101976-62847782c213?w=400&h=300&fit=crop"
+      "totalReviews": 320,
+      "reviews": [
+        {
+          "user": "Irfan",
+          "comment": "Classic and perfect, just like in Italy!",
+          "star": 5
+        },
+        {
+          "user": "Lina",
+          "comment": "The foam is incredibly velvety.",
+          "star": 5
+        },
+        {
+          "user": "Toni",
+          "comment": "Good but I prefer a bit less cocoa.",
+          "star": 4
+        }
+      ],
+      "image": "https://images.unsplash.com/photo-1534778101976-62847782c213?w=400&h=300&fit=crop",
+      "sizes": {
+        "small": 18000,
+        "medium": 23000,
+        "large": 30000
+      }
     },
     {
       "id": 5,
@@ -43,7 +135,30 @@
       "price": 18000,
       "category": "coffee",
       "rating": 4.3,
-      "image": "https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=400&h=300&fit=crop"
+      "totalReviews": 150,
+      "reviews": [
+        {
+          "user": "Yusuf",
+          "comment": "Strong and clean, love it for late nights.",
+          "star": 4
+        },
+        {
+          "user": "Nadia",
+          "comment": "Simple but satisfying.",
+          "star": 4
+        },
+        {
+          "user": "Arif",
+          "comment": "Could use a bit more flavor.",
+          "star": 4
+        }
+      ],
+      "image": "https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=400&h=300&fit=crop",
+      "sizes": {
+        "small": 14000,
+        "medium": 18000,
+        "large": 23000
+      }
     },
     {
       "id": 6,
@@ -52,7 +167,30 @@
       "price": 26000,
       "category": "non-coffee",
       "rating": 4.6,
-      "image": "https://images.unsplash.com/photo-1515823662972-da6a2e4d3002?w=400&h=300&fit=crop"
+      "totalReviews": 275,
+      "reviews": [
+        {
+          "user": "Citra",
+          "comment": "Earthy matcha flavor with creamy oat milk, perfect!",
+          "star": 5
+        },
+        {
+          "user": "Dani",
+          "comment": "Love the premium matcha taste.",
+          "star": 5
+        },
+        {
+          "user": "Wulan",
+          "comment": "A bit pricey but worth every sip.",
+          "star": 4
+        }
+      ],
+      "image": "https://images.unsplash.com/photo-1515823662972-da6a2e4d3002?w=400&h=300&fit=crop",
+      "sizes": {
+        "small": 21000,
+        "medium": 26000,
+        "large": 34000
+      }
     },
     {
       "id": 7,
@@ -61,7 +199,30 @@
       "price": 21000,
       "category": "coffee",
       "rating": 4.4,
-      "image": "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?w=400&h=300&fit=crop"
+      "totalReviews": 198,
+      "reviews": [
+        {
+          "user": "Reza",
+          "comment": "Smooth and less acidic, great for sensitive stomachs.",
+          "star": 5
+        },
+        {
+          "user": "Ayu",
+          "comment": "Love the cold brew process, tastes unique.",
+          "star": 4
+        },
+        {
+          "user": "Eko",
+          "comment": "Good but I wish it were a bit stronger.",
+          "star": 4
+        }
+      ],
+      "image": "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?w=400&h=300&fit=crop",
+      "sizes": {
+        "small": 17000,
+        "medium": 21000,
+        "large": 27000
+      }
     },
     {
       "id": 8,
@@ -70,7 +231,30 @@
       "price": 24000,
       "category": "coffee",
       "rating": 4.5,
-      "image": "https://images.unsplash.com/photo-1577968897966-3d4325b36b61?w=400&h=300&fit=crop"
+      "totalReviews": 210,
+      "reviews": [
+        {
+          "user": "Bagas",
+          "comment": "Stronger than a latte, exactly what I needed.",
+          "star": 5
+        },
+        {
+          "user": "Fitri",
+          "comment": "The microfoam texture is divine.",
+          "star": 5
+        },
+        {
+          "user": "Galih",
+          "comment": "Nice but a bit too strong for me.",
+          "star": 4
+        }
+      ],
+      "image": "https://images.unsplash.com/photo-1577968897966-3d4325b36b61?w=400&h=300&fit=crop",
+      "sizes": {
+        "small": 19000,
+        "medium": 24000,
+        "large": 31000
+      }
     },
     {
       "id": 9,
@@ -79,7 +263,30 @@
       "price": 15000,
       "category": "coffee",
       "rating": 4.2,
-      "image": "https://images.unsplash.com/photo-1593443320739-77f74939d0da?w=400&h=300&fit=crop"
+      "totalReviews": 132,
+      "reviews": [
+        {
+          "user": "Hendra",
+          "comment": "Intense and bold, perfect shot!",
+          "star": 4
+        },
+        {
+          "user": "Indah",
+          "comment": "Classic espresso, no complaints.",
+          "star": 4
+        },
+        {
+          "user": "Joko",
+          "comment": "A bit too bitter for my taste.",
+          "star": 4
+        }
+      ],
+      "image": "https://images.unsplash.com/photo-1593443320739-77f74939d0da?w=400&h=300&fit=crop",
+      "sizes": {
+        "small": 12000,
+        "medium": 15000,
+        "large": 20000
+      }
     },
     {
       "id": 10,
@@ -88,7 +295,30 @@
       "price": 30000,
       "category": "coffee",
       "rating": 4.7,
-      "image": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=300&fit=crop"
+      "totalReviews": 289,
+      "reviews": [
+        {
+          "user": "Kiki",
+          "comment": "Complex flavors, you can taste the craft.",
+          "star": 5
+        },
+        {
+          "user": "Lena",
+          "comment": "Worth the price for single origin quality.",
+          "star": 5
+        },
+        {
+          "user": "Mawar",
+          "comment": "Best pour over I've had in Jakarta.",
+          "star": 5
+        }
+      ],
+      "image": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=300&fit=crop",
+      "sizes": {
+        "small": 24000,
+        "medium": 30000,
+        "large": 39000
+      }
     },
     {
       "id": 11,
@@ -97,7 +327,30 @@
       "price": 25000,
       "category": "coffee",
       "rating": 4.6,
-      "image": "https://images.unsplash.com/photo-1541167760496-1628856ab772?w=400&h=300&fit=crop"
+      "totalReviews": 245,
+      "reviews": [
+        {
+          "user": "Nanda",
+          "comment": "Tropical vibes in every sip!",
+          "star": 5
+        },
+        {
+          "user": "Oscar",
+          "comment": "Coconut milk pairs perfectly with espresso.",
+          "star": 5
+        },
+        {
+          "user": "Prita",
+          "comment": "Unique and refreshing combination.",
+          "star": 4
+        }
+      ],
+      "image": "https://images.unsplash.com/photo-1541167760496-1628856ab772?w=400&h=300&fit=crop",
+      "sizes": {
+        "small": 20000,
+        "medium": 25000,
+        "large": 33000
+      }
     },
     {
       "id": 12,
@@ -106,7 +359,30 @@
       "price": 28000,
       "category": "coffee",
       "rating": 4.8,
-      "image": "https://images.unsplash.com/photo-1506619216599-9d16d0903dfd?w=400&h=300&fit=crop"
+      "totalReviews": 367,
+      "reviews": [
+        {
+          "user": "Qori",
+          "comment": "The seasonal spices are absolutely perfect!",
+          "star": 5
+        },
+        {
+          "user": "Rini",
+          "comment": "So cozy and warm, love the pumpkin flavor.",
+          "star": 5
+        },
+        {
+          "user": "Sandi",
+          "comment": "Best seasonal drink ever!",
+          "star": 5
+        }
+      ],
+      "image": "https://images.unsplash.com/photo-1506619216599-9d16d0903dfd?w=400&h=300&fit=crop",
+      "sizes": {
+        "small": 22000,
+        "medium": 28000,
+        "large": 36000
+      }
     },
     {
       "id": 13,
@@ -115,7 +391,30 @@
       "price": 16000,
       "category": "coffee",
       "rating": 4.1,
-      "image": "https://images.unsplash.com/photo-1610889556528-9a770e32642f?w=400&h=300&fit=crop"
+      "totalReviews": 98,
+      "reviews": [
+        {
+          "user": "Tara",
+          "comment": "Super concentrated, not for the faint-hearted.",
+          "star": 4
+        },
+        {
+          "user": "Umar",
+          "comment": "Interesting flavor profile.",
+          "star": 4
+        },
+        {
+          "user": "Vina",
+          "comment": "Too intense for me but coffee lovers will enjoy.",
+          "star": 3
+        }
+      ],
+      "image": "https://images.unsplash.com/photo-1610889556528-9a770e32642f?w=400&h=300&fit=crop",
+      "sizes": {
+        "small": 13000,
+        "medium": 16000,
+        "large": 21000
+      }
     },
     {
       "id": 14,
@@ -124,7 +423,30 @@
       "price": 19000,
       "category": "coffee",
       "rating": 4.3,
-      "image": "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400&h=300&fit=crop"
+      "totalReviews": 176,
+      "reviews": [
+        {
+          "user": "Widi",
+          "comment": "Refreshing and bold, perfect for hot days.",
+          "star": 5
+        },
+        {
+          "user": "Xena",
+          "comment": "Simple but hits the spot every time.",
+          "star": 4
+        },
+        {
+          "user": "Yoga",
+          "comment": "Great value for the price.",
+          "star": 4
+        }
+      ],
+      "image": "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400&h=300&fit=crop",
+      "sizes": {
+        "small": 15000,
+        "medium": 19000,
+        "large": 25000
+      }
     },
     {
       "id": 15,
@@ -133,7 +455,30 @@
       "price": 24000,
       "category": "coffee",
       "rating": 4.6,
-      "image": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&h=300&fit=crop"
+      "totalReviews": 221,
+      "reviews": [
+        {
+          "user": "Zara",
+          "comment": "Natural sweetness from honey, so good!",
+          "star": 5
+        },
+        {
+          "user": "Aldi",
+          "comment": "Healthier option than sugar, love it!",
+          "star": 5
+        },
+        {
+          "user": "Bella",
+          "comment": "The honey adds a unique floral note.",
+          "star": 4
+        }
+      ],
+      "image": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&h=300&fit=crop",
+      "sizes": {
+        "small": 19000,
+        "medium": 24000,
+        "large": 31000
+      }
     },
     {
       "id": 16,
@@ -142,7 +487,30 @@
       "price": 29000,
       "category": "non-coffee",
       "rating": 4.7,
-      "image": "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=400&h=300&fit=crop"
+      "totalReviews": 304,
+      "reviews": [
+        {
+          "user": "Caca",
+          "comment": "The combo of matcha and espresso is genius!",
+          "star": 5
+        },
+        {
+          "user": "Dede",
+          "comment": "Bitter-sweet perfection in a cup.",
+          "star": 5
+        },
+        {
+          "user": "Euis",
+          "comment": "Unique drink, definitely ordering again.",
+          "star": 4
+        }
+      ],
+      "image": "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=400&h=300&fit=crop",
+      "sizes": {
+        "small": 23000,
+        "medium": 29000,
+        "large": 38000
+      }
     },
     {
       "id": 17,
@@ -151,7 +519,30 @@
       "price": 24000,
       "category": "non-coffee",
       "rating": 4.5,
-      "image": "https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=400&h=300&fit=crop"
+      "totalReviews": 189,
+      "reviews": [
+        {
+          "user": "Fani",
+          "comment": "Fresh and fruity, perfect for summer!",
+          "star": 5
+        },
+        {
+          "user": "Gita",
+          "comment": "Love the yogurt base, very creamy.",
+          "star": 4
+        },
+        {
+          "user": "Habi",
+          "comment": "Healthy and delicious combination.",
+          "star": 5
+        }
+      ],
+      "image": "https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=400&h=300&fit=crop",
+      "sizes": {
+        "small": 19000,
+        "medium": 24000,
+        "large": 31000
+      }
     },
     {
       "id": 18,
@@ -160,7 +551,30 @@
       "price": 22000,
       "category": "non-coffee",
       "rating": 4.6,
-      "image": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop"
+      "totalReviews": 256,
+      "reviews": [
+        {
+          "user": "Ita",
+          "comment": "The tapioca pearls are perfectly chewy!",
+          "star": 5
+        },
+        {
+          "user": "Jani",
+          "comment": "Beautiful purple color and amazing taste.",
+          "star": 5
+        },
+        {
+          "user": "Kira",
+          "comment": "My favorite boba drink here.",
+          "star": 4
+        }
+      ],
+      "image": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop",
+      "sizes": {
+        "small": 18000,
+        "medium": 22000,
+        "large": 29000
+      }
     },
     {
       "id": 19,
@@ -169,7 +583,30 @@
       "price": 27000,
       "category": "non-coffee",
       "rating": 4.8,
-      "image": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400&h=300&fit=crop"
+      "totalReviews": 342,
+      "reviews": [
+        {
+          "user": "Luna",
+          "comment": "Thick, rich and absolutely indulgent!",
+          "star": 5
+        },
+        {
+          "user": "Miko",
+          "comment": "Best chocolate milkshake in town.",
+          "star": 5
+        },
+        {
+          "user": "Nisa",
+          "comment": "The whipped cream on top is the cherry on the cake.",
+          "star": 5
+        }
+      ],
+      "image": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400&h=300&fit=crop",
+      "sizes": {
+        "small": 22000,
+        "medium": 27000,
+        "large": 35000
+      }
     },
     {
       "id": 20,
@@ -178,7 +615,30 @@
       "price": 18000,
       "category": "non-coffee",
       "rating": 4.2,
-      "image": "https://images.unsplash.com/photo-1621263764928-df1444c5e859?w=400&h=300&fit=crop"
+      "totalReviews": 143,
+      "reviews": [
+        {
+          "user": "Omar",
+          "comment": "Super refreshing on a hot day!",
+          "star": 4
+        },
+        {
+          "user": "Peni",
+          "comment": "The mint adds a nice cooling touch.",
+          "star": 4
+        },
+        {
+          "user": "Qila",
+          "comment": "A bit too sour for me but still good.",
+          "star": 4
+        }
+      ],
+      "image": "https://images.unsplash.com/photo-1621263764928-df1444c5e859?w=400&h=300&fit=crop",
+      "sizes": {
+        "small": 14000,
+        "medium": 18000,
+        "large": 23000
+      }
     }
   ]
 }
