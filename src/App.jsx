@@ -8,7 +8,7 @@ import RegisterProvider from "./contexts/register/RegisterProvider";
 import Home from "./pages/Home";
 import Product from "./pages/Product";
 import MainLayout from "./layout/MainLayout";
-
+import DetailProduct from "./pages/DetailProduct";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +23,10 @@ const router = createBrowserRouter([
         path: "product",
         element: <Product />,
       },
+      {
+        path: "product/:id",
+        element: <DetailProduct />,
+      },
     ],
   },
   {
@@ -34,7 +38,6 @@ const router = createBrowserRouter([
     element: <Register />,
   },
 ]);
-
 
 const App = () => {
   return (
