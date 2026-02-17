@@ -1,0 +1,184 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Hazelnut Latte",
+      "description": "Smooth espresso combined with hazelnut syrup and steamed milk for a nutty, rich flavor.",
+      "price": 20000,
+      "category": "coffee",
+      "rating": 4.8,
+      "image": "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400&h=300&fit=crop"
+    },
+    {
+      "id": 2,
+      "name": "Vanilla Latte",
+      "description": "Creamy espresso latte with a hint of sweet vanilla syrup and silky steamed milk.",
+      "price": 22000,
+      "category": "coffee",
+      "rating": 4.5,
+      "image": "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400&h=300&fit=crop"
+    },
+    {
+      "id": 3,
+      "name": "Caramel Macchiato",
+      "description": "Layers of espresso, vanilla, steamed milk, and caramel drizzle for a sweet indulgence.",
+      "price": 25000,
+      "category": "coffee",
+      "rating": 4.9,
+      "image": "https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?w=400&h=300&fit=crop"
+    },
+    {
+      "id": 4,
+      "name": "Cappuccino",
+      "description": "Classic Italian espresso topped with thick, velvety foam and a dusting of cocoa powder.",
+      "price": 23000,
+      "category": "coffee",
+      "rating": 4.7,
+      "image": "https://images.unsplash.com/photo-1534778101976-62847782c213?w=400&h=300&fit=crop"
+    },
+    {
+      "id": 5,
+      "name": "Americano",
+      "description": "Bold and strong espresso diluted with hot water for a clean, deep black coffee taste.",
+      "price": 18000,
+      "category": "coffee",
+      "rating": 4.3,
+      "image": "https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=400&h=300&fit=crop"
+    },
+    {
+      "id": 6,
+      "name": "Matcha Latte",
+      "description": "Premium Japanese matcha powder whisked with steamed oat milk for an earthy, creamy drink.",
+      "price": 26000,
+      "category": "non-coffee",
+      "rating": 4.6,
+      "image": "https://images.unsplash.com/photo-1515823662972-da6a2e4d3002?w=400&h=300&fit=crop"
+    },
+    {
+      "id": 7,
+      "name": "Cold Brew",
+      "description": "Slowly steeped for 12 hours in cold water, producing a smooth, less acidic coffee concentrate.",
+      "price": 21000,
+      "category": "coffee",
+      "rating": 4.4,
+      "image": "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?w=400&h=300&fit=crop"
+    },
+    {
+      "id": 8,
+      "name": "Flat White",
+      "description": "Double ristretto shots with microfoam milk, stronger than a latte with a velvety texture.",
+      "price": 24000,
+      "category": "coffee",
+      "rating": 4.5,
+      "image": "https://images.unsplash.com/photo-1577968897966-3d4325b36b61?w=400&h=300&fit=crop"
+    },
+    {
+      "id": 9,
+      "name": "Espresso",
+      "description": "Pure, concentrated shot of rich espresso with a thick golden crema on top.",
+      "price": 15000,
+      "category": "coffee",
+      "rating": 4.2,
+      "image": "https://images.unsplash.com/photo-1593443320739-77f74939d0da?w=400&h=300&fit=crop"
+    },
+    {
+      "id": 10,
+      "name": "Pour Over Coffee",
+      "description": "Carefully hand-brewed single origin coffee using the pour over method for a clean, complex cup.",
+      "price": 30000,
+      "category": "coffee",
+      "rating": 4.7,
+      "image": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=300&fit=crop"
+    },
+    {
+      "id": 11,
+      "name": "Coconut Latte",
+      "description": "Espresso with creamy coconut milk and a hint of vanilla for a tropical coffee experience.",
+      "price": 25000,
+      "category": "coffee",
+      "rating": 4.6,
+      "image": "https://images.unsplash.com/photo-1541167760496-1628856ab772?w=400&h=300&fit=crop"
+    },
+    {
+      "id": 12,
+      "name": "Pumpkin Spice Latte",
+      "description": "Seasonal favorite with pumpkin puree, cinnamon, nutmeg, and espresso topped with whipped cream.",
+      "price": 28000,
+      "category": "coffee",
+      "rating": 4.8,
+      "image": "https://images.unsplash.com/photo-1506619216599-9d16d0903dfd?w=400&h=300&fit=crop"
+    },
+    {
+      "id": 13,
+      "name": "Ristretto",
+      "description": "A short, concentrated espresso shot with less water for an intense, sweeter flavor profile.",
+      "price": 16000,
+      "category": "coffee",
+      "rating": 4.1,
+      "image": "https://images.unsplash.com/photo-1610889556528-9a770e32642f?w=400&h=300&fit=crop"
+    },
+    {
+      "id": 14,
+      "name": "Iced Americano",
+      "description": "Chilled espresso diluted with cold water and ice for a smooth, bold coffee experience.",
+      "price": 19000,
+      "category": "coffee",
+      "rating": 4.3,
+      "image": "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400&h=300&fit=crop"
+    },
+    {
+      "id": 15,
+      "name": "Honey Latte",
+      "description": "Smooth espresso sweetened naturally with honey and combined with steamed milk.",
+      "price": 24000,
+      "category": "coffee",
+      "rating": 4.6,
+      "image": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&h=300&fit=crop"
+    },
+    {
+      "id": 16,
+      "name": "Dirty Matcha",
+      "description": "Layered matcha latte topped with a rich shot of espresso for a unique bitter-sweet taste.",
+      "price": 29000,
+      "category": "non-coffee",
+      "rating": 4.7,
+      "image": "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=400&h=300&fit=crop"
+    },
+    {
+      "id": 17,
+      "name": "Strawberry Smoothie",
+      "description": "Fresh strawberry blended with yogurt and honey for a refreshing and healthy drink.",
+      "price": 24000,
+      "category": "non-coffee",
+      "rating": 4.5,
+      "image": "https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=400&h=300&fit=crop"
+    },
+    {
+      "id": 18,
+      "name": "Taro Milk Tea",
+      "description": "Creamy taro root blended with milk tea and chewy tapioca pearls for a sweet purple drink.",
+      "price": 22000,
+      "category": "non-coffee",
+      "rating": 4.6,
+      "image": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop"
+    },
+    {
+      "id": 19,
+      "name": "Chocolate Milkshake",
+      "description": "Rich and creamy chocolate milkshake topped with whipped cream and chocolate drizzle.",
+      "price": 27000,
+      "category": "non-coffee",
+      "rating": 4.8,
+      "image": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400&h=300&fit=crop"
+    },
+    {
+      "id": 20,
+      "name": "Lemon Squash",
+      "description": "Freshly squeezed lemon with sparkling water and a hint of mint for a zesty refreshing drink.",
+      "price": 18000,
+      "category": "non-coffee",
+      "rating": 4.2,
+      "image": "https://images.unsplash.com/photo-1621263764928-df1444c5e859?w=400&h=300&fit=crop"
+    }
+  ]
+}
