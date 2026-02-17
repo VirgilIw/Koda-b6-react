@@ -2,7 +2,6 @@ import React from "react";
 import thumb from "../../assets/detail-product/ThumbsUp.svg";
 import Star from "../../assets/home/Star.svg";
 
-
 export default function RightSection({
   handleChangeSize,
   handleChangeTemperature,
@@ -12,8 +11,25 @@ export default function RightSection({
   product,
   pcsProduct,
   size,
-  temperature
+  temperature,
 }) {
+  const getPriceBySize = (size, price) => {
+    switch (size) {
+      case "Medium":
+        return price + 5000;
+      case "Large":
+        return price + 10000;
+      default:
+        return price;
+    }
+  };
+
+  const basePrice = getPriceBySize(size, product.price);
+
+  const promo = size === "Regular" ? 4000 : 0;
+
+  const finalPrice = basePrice - promo;
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -23,12 +39,21 @@ export default function RightSection({
 
       {/* PRICE */}
       <div className="flex items-center gap-2">
-        <p className="text-red-400 line-through">
-          {product.price >= 25000 ? "IDR 30000" : "IDR 25000"}
-        </p>
+        {promo > 0 && (
+          <p className="text-red-400 line-through">
+            IDR. {basePrice.toLocaleString("id-ID")}
+          </p>
+        )}
+
         <p className="text-sm text-gray-500">
-          Rp {product.price.toLocaleString("id-ID")}
+          Rp {finalPrice.toLocaleString("id-ID")}
         </p>
+
+        {promo > 0 && (
+          <span className="rounded bg-orange-100 px-2 py-1 text-xs text-orange-600">
+            Promo Regular
+          </span>
+        )}
       </div>
 
       {/* RATING */}
