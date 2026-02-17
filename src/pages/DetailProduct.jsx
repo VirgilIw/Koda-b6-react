@@ -70,7 +70,9 @@ export default function DetailProduct() {
       size,
       temperature,
     };
-    navigate(`/checkout-product/${id}`);
+    navigate(
+      `/checkout-product/${id}?qty=${pcsProduct}&size=${size}&temperature=${temperature}`,
+    );
 
     console.log("BUY DATA:", payload);
   };
