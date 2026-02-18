@@ -1,8 +1,8 @@
-FROM nginx:1.28
+FROM nginx:stable-alpine
 
-WORKDIR /usr/share/nginx/html
+# WORKDIR /usr/share/nginx/html
 
-COPY dist/ .
-COPY config/nginx.conf /etc/nginx/conf.d/default.conf
+COPY ./dist /usr/share/nginx/html
 
-EXPOSE 80
+RUN rm /etc/nginx/conf.d/default.conf
+COPY ./default.conf /etc/nginx/conf.d/default.conf
