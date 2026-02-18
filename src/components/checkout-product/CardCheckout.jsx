@@ -21,7 +21,7 @@ export default function CardCheckout({ qty, product, size, temperature }) {
           </div>
           <div>
             <p>test</p>
-            <p></p>
+            <p>test</p>
           </div>
         </div>
 
