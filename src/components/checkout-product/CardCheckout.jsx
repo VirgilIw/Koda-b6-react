@@ -20,7 +20,7 @@ export default function CardCheckout({ qty, product, size, temperature }) {
             <p className="px-3">Dine in</p>
           </div>
           <div>
-            <p>{}</p>
+            <p>test</p>
             <p></p>
           </div>
         </div>
