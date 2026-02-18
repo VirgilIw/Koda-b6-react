@@ -52,5 +52,5 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             docker pull ghcr.io/virgiliw/coffeshop:latest
-            docker rm -f coffeshopVirgil
-            docker run -d -p 21101:80 --name coffeshopVirgil ghcr.io/virgiliw/coffeshop:latest
+            docker rm -f web-virgil
+            docker run -d -p 21101:80 --name web-virgil ghcr.io/virgiliw/coffeshop:latest
