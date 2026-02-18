@@ -1,3 +1,7 @@
 FROM nginx:1.28
 
-COPY ./dist /usr/share/nginx/html
+WORKDIR /usr/share/nginx/html
+
+COPY dist/ .
+
+EXPOSE 80
