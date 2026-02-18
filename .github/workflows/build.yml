@@ -1,0 +1,56 @@
+name: Server CI/CD
+run-name: Build and run latest image on server
+on: [push]
+jobs:
+  Build-and-Run:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+    steps:
+      - name: Setup nodejs v24.13.1
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24.13.1"
+      - name: Check nodejs version
+        run: node -v
+      - name: Gathering source code
+        uses: actions/checkout@v6
+      - name: Build app
+        run: npm install && npm run build
+      - name: "[DOCKER] Setup metadata"
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/virgiliw/coffeshop
+          tags: type=raw,value=latest
+      - name: "[DOCKER] Login GHCR"
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner}}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: "[DOCKER] Set up QEMU"
+        uses: docker/setup-qemu-action@v3
+
+      - name: "[DOCKER] Set up Docker Buildx"
+        uses: docker/setup-buildx-action@v3
+
+      - name: "[DOCKER] Build and push"
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+      - name: "[SERVER] pull image from ghcr.io"
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            docker pull ghcr.io/virgiliw/coffeshop:latest
+            docker rm -f coffeshopVirgil
+            docker run -d -p 21101:80 --name coffeshopVirgil ghcr.io/virgiliw/coffeshop:latest
