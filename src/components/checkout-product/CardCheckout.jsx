@@ -1,7 +1,12 @@
 import React from "react";
 
-export default function CardCheckout({ qty, product, size, temperature,delivery }) {
-
+export default function CardCheckout({
+  qty,
+  product,
+  size,
+  temperature,
+  delivery,
+}) {
   return (
     <>
       <section className="mt-4 grid h-60 grid-cols-[30%_50%_20%] rounded-lg bg-gray-50 p-3">
