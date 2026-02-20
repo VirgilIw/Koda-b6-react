@@ -53,4 +53,4 @@ jobs:
           script: |
             docker pull ghcr.io/virgiliw/coffeshop:latest
             docker rm -f web-virgil
-            docker run -d -p 21101:80 --name web-virgil ghcr.io/virgiliw/coffeshop:latest
+            docker run -d -p 21101:80 --name web-virgil --network pman_web ghcr.io/virgiliw/coffeshop:latest
