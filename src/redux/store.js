@@ -10,6 +10,7 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import productReducer from "./slice/product.slice";
+import orderReducer from "./slice/order.slice";
 
 const persistConfig = {
   key: "data",
@@ -18,8 +19,8 @@ const persistConfig = {
 
 const persistedReducer = persistCombineReducers(persistConfig, {
   product: productReducer,
+  order: orderReducer,
 });
-
 
 const store = configureStore({
   reducer: persistedReducer,
