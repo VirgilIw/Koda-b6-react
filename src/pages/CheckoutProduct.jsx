@@ -6,7 +6,7 @@ import PaymentType from "../components/checkout-product/PaymentType";
 import PaymentInfoDelivery from "../components/checkout-product/PaymentInfoDelivery";
 import AddNewProduct from "../components/checkout-product/AddNewProduct";
 import { useDispatch } from "react-redux";
-import { setProducts } from "../redux/slice/product.slice";
+import { addOrder } from "../redux/slice/order.slice";
 
 export default function CheckoutProduct() {
   const [searchParams] = useSearchParams();
@@ -52,7 +52,7 @@ export default function CheckoutProduct() {
       formData,
       subtotal,
     };
-    dispatch(setProducts(checkoutData))
+    dispatch(addOrder(checkoutData))
     console.log("Checkout Data:", checkoutData);
   };
 
