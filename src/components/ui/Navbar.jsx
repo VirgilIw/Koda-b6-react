@@ -6,7 +6,7 @@ import { NavLink, useLocation } from "react-router";
 export default function Navbar() {
   const location = useLocation();
   const isHome = location.pathname === "/";
-  const isAdmin = location.pathname.startsWith("/admin");
+  const isAdmin = location.pathname.startsWith("/dashboard/admin");
 
   return (
     <section
