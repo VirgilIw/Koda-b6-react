@@ -14,7 +14,7 @@ export default function CheckoutProduct() {
   const data = useFetch("/product.json");
   const [show, setShow] = React.useState(false);
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [formData, setFormData] = React.useState({
     email: "",
@@ -54,8 +54,13 @@ export default function CheckoutProduct() {
       year: "numeric",
     });
 
+    const dataForm = Object.fromEntries(
+      Object.entries(formData).filter(([, value]) => value !== ""),
+    );
+
     const checkoutData = {
       orderId,
+      dataForm,
       items: [
         {
           product,
@@ -71,7 +76,7 @@ export default function CheckoutProduct() {
 
     dispatch(addOrder(checkoutData));
     console.log("Checkout Data:", checkoutData);
-    navigate("/history-order")
+    navigate("/history-order");
   };
 
   return (
