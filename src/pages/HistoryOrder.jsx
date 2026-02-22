@@ -67,7 +67,7 @@ export default function HistoryOrder() {
                 className="flex flex-col items-start gap-5 rounded-md bg-[#E8E8E84D] p-5 md:flex-row md:items-center"
               >
                 <div className="hidden shrink-0 md:block">
-                  {order.items.map((item,id) => {
+                  {order.items.map((item, id) => {
                     return (
                       <div key={id}>
                         <img
@@ -87,7 +87,10 @@ export default function HistoryOrder() {
                       Order
                     </p>
                     <p className="mt-1 text-base font-bold">{order.id}</p>
-                    <button className="text-brand-orange mt-1 hidden text-left text-sm font-medium underline hover:text-[#ffad4e] md:block">
+                    <button
+                      className="text-brand-orange mt-1 hidden text-left text-sm font-medium underline hover:text-[#ffad4e] md:block"
+                      onClick={() => navigate(`/detail-order/${order.id}`)}
+                    >
                       View Order Detail
                     </button>
                   </div>
@@ -116,7 +119,7 @@ export default function HistoryOrder() {
                 </div>
                 <button
                   className="text-brand-orange mt-1 block text-left text-sm font-medium hover:underline md:hidden"
-                  onClick={() => navigate("/detail-order")}
+                  onClick={() => navigate(`/detail-order/${order.id}`)}
                 >
                   View Order Detail
                 </button>
