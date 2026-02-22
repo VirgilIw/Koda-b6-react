@@ -20,7 +20,7 @@ export default function HistoryOrder() {
   return (
     <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 md:px-10 lg:px-16 xl:px-24">
       <div>
-        <h1 className="flex gap-3 text-3xl font-medium md:text-5xl mt-24">
+        <h1 className="mt-24 flex gap-3 text-3xl font-medium md:text-5xl">
           History Order
           <span className="bg-[#E8E8E8] p-3 pr-5 pl-5 text-xl">2</span>
         </h1>
@@ -67,13 +67,15 @@ export default function HistoryOrder() {
                 className="flex flex-col items-start gap-5 rounded-md bg-[#E8E8E84D] p-5 md:flex-row md:items-center"
               >
                 <div className="hidden shrink-0 md:block">
-                  {order.items.map((item) => {
+                  {order.items.map((item,id) => {
                     return (
-                      <img
-                        src={item.product.image}
-                        alt="image-history"
-                        className="w-25"
-                      />
+                      <div key={id}>
+                        <img
+                          src={item.product.image}
+                          alt="image-history"
+                          className="w-25"
+                        />
+                      </div>
                     );
                   })}
                 </div>
