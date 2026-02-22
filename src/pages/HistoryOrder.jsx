@@ -89,7 +89,7 @@ export default function HistoryOrder() {
                     <p className="mt-1 text-base font-bold">{order.id}</p>
                     <button
                       className="text-brand-orange mt-1 hidden text-left text-sm font-medium underline hover:text-[#ffad4e] md:block"
-                      onClick={() => navigate(`/detail-order/${index + 1}`)}
+                      onClick={() => navigate(`/detail-order/${order.orderId}`)}
                     >
                       View Order Detail
                     </button>
