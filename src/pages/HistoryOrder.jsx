@@ -89,7 +89,7 @@ export default function HistoryOrder() {
                     <p className="mt-1 text-base font-bold">{order.id}</p>
                     <button
                       className="text-brand-orange mt-1 hidden text-left text-sm font-medium underline hover:text-[#ffad4e] md:block"
-                      onClick={() => navigate(`/detail-order/${order.id}`)}
+                      onClick={() => navigate(`/detail-order/${index + 1}`)}
                     >
                       View Order Detail
                     </button>
@@ -109,7 +109,7 @@ export default function HistoryOrder() {
                   </div>
                   <div className="flex flex-col">
                     <p className="flex gap-2 text-sm text-[#4F5665]">
-                      <img src={Process} alt="Icon" className="h-4 w-4" />{" "}
+                      <img src={Process} alt="Icon" className="h-4 w-4" />
                       Status
                     </p>
                     <p className="text-brand-orange mt-1 w-fit rounded-full bg-[#FF890633] px-3 py-1 text-xs font-semibold">
@@ -119,7 +119,7 @@ export default function HistoryOrder() {
                 </div>
                 <button
                   className="text-brand-orange mt-1 block text-left text-sm font-medium hover:underline md:hidden"
-                  onClick={() => navigate(`/detail-order/${order.id}`)}
+                  onClick={() => navigate(`/detail-order/${index + 1}`)}
                 >
                   View Order Detail
                 </button>
