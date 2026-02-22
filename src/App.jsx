@@ -13,6 +13,7 @@ import Error from "./pages/Error";
 import CheckoutProduct from "./pages/CheckoutProduct";
 import HistoryOrder from "./pages/HistoryOrder";
 import OrderDetail from "./pages/OrderDetail";
+import Profile from "./pages/Profile";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
       {
         path: "detail-order/:id",
         element: <OrderDetail />,
+      },
+      {
+        path: "profile",
+        element: <Profile />,
       },
       {
         path: "*",
