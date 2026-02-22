@@ -21,31 +21,35 @@ export default function Navbar() {
       <div className="flex flex-col gap-4 px-4 py-3 lg:grid lg:grid-cols-2 lg:px-20 lg:py-5">
         {/* LEFT SIDE */}
         <div className="flex items-center justify-between gap-6 lg:justify-start">
-          <img src={isAdmin ? csBrown : cs} alt="coffe shop" className="h-8" />
+          {/* Logo */}
+          <img src={isAdmin ? csBrown : cs} alt="coffee shop" className="h-8" />
 
-          <div className="flex items-center gap-6">
-            <NavLink
-              to="/"
-              className={({ isActive }) =>
-                `cursor-pointer px-2 pb-1 ${
-                  isActive ? "border-b-2 border-orange-400" : ""
-                }`
-              }
-            >
-              Home
-            </NavLink>
+          {/* Menu (hidden in admin) */}
+          {!isAdmin && (
+            <div className="flex items-center gap-6">
+              <NavLink
+                to="/"
+                className={({ isActive }) =>
+                  `cursor-pointer px-2 pb-1 ${
+                    isActive ? "border-b-2 border-orange-400" : ""
+                  }`
+                }
+              >
+                Home
+              </NavLink>
 
-            <NavLink
-              to="/product"
-              className={({ isActive }) =>
-                `cursor-pointer px-2 pb-1 ${
-                  isActive ? "border-b-2 border-orange-400" : ""
-                }`
-              }
-            >
-              Product
-            </NavLink>
-          </div>
+              <NavLink
+                to="/product"
+                className={({ isActive }) =>
+                  `cursor-pointer px-2 pb-1 ${
+                    isActive ? "border-b-2 border-orange-400" : ""
+                  }`
+                }
+              >
+                Product
+              </NavLink>
+            </div>
+          )}
         </div>
 
         {/* RIGHT SIDE */}
