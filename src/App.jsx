@@ -12,6 +12,7 @@ import DetailProduct from "./pages/DetailProduct";
 import Error from "./pages/Error";
 import CheckoutProduct from "./pages/CheckoutProduct";
 import HistoryOrder from "./pages/HistoryOrder";
+import OrderDetail from "./pages/OrderDetail";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
       {
         path: "history-order",
         element: <HistoryOrder />,
+      },
+      {
+        path: "detail-order/:id",
+        element: <OrderDetail />,
       },
       {
         path: "*",
