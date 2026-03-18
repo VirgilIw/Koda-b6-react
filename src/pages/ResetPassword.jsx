@@ -42,7 +42,7 @@ export default function ResetPassword() {
           <img
             src={reset}
             alt="forgot-image"
-            className="h-full w-98 object-center"
+            className="h-full w-96 object-center"
           />
         </section>
 
