@@ -51,7 +51,7 @@ export default function ForgotPassword() {
         </section>
 
         {/* Form */}
-        <section className="flex min-h-screen items-center justify-center">
+        <section className="flex min-h-screen items-center">
           <form
             onSubmit={handleSubmit}
             className="flex w-full max-w-4xl flex-col gap-5"
