@@ -4,9 +4,13 @@ import EyeClose from "../components/auth/EyeClose";
 import EyeOpen from "../components/auth/EyeOpen";
 import Mail from "../assets/auth/mail.svg";
 import Password from "../assets/auth/password.svg";
-import { Link, useNavigate } from "react-router";
+import {
+  Link,
+  useNavigate
+} from "react-router";
 import React from "react";
 import MediaAuth from "../components/auth/MediaAuth";
+import http from "../lib/http";
 
 export const Login = () => {
   const [openEye, setOpenEye] = React.useState(false);
@@ -21,31 +25,43 @@ export const Login = () => {
     setOpenEye(!openEye);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+ const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    try {
-      if (form.password === "" || form.email === "") {
-        setErrorMessage("Email and password cannot be empty");
-        return;
+  if (form.email === "" || form.password === "") {
+    setErrorMessage("Email and password cannot be empty");
+    return;
+  }
+
+  try {
+    const res = await http(
+      "/auth/login",
+      JSON.stringify({
+        email: form.email,
+        password: form.password,
+      }),
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
       }
-      // ambil dan ubah dari string → array
-      const users = JSON.parse(localStorage.getItem("users")) || [];
+    );
 
-      const isLoginValid = users.some(
-        (user) => user.email === form.email && user.password === form.password,
-      );
+    const data = await res.json();
 
-      if (!isLoginValid) {
-        setErrorMessage("Email or password incorrect");
-        return;
-      }
-      setErrorMessage("");
-      navigate("/");
-    } catch (error) {
-      console.log(error);
+    if (!res.ok) {
+      setErrorMessage(data.message || "Login failed");
+      return;
     }
-  };
+
+    setErrorMessage("");
+    navigate("/");
+  } catch (error) {
+    console.log(error);
+    setErrorMessage("Something went wrong");
+  }
+};
 
   React.useEffect(() => {
     localStorage.getItem("users");
