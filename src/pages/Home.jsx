@@ -5,9 +5,19 @@ import person from "../assets/home/person.svg";
 import Testimonial from "../components/home/Testimonial";
 import MapCoffe from "../components/home/Map";
 import ChatFeature from "../components/home/ChatFeature";
-import ChatText from "../components/home/ChatText";
+import http from "../lib/http";
 
 export default function Home() {
+  const [products, setProducts] = React.useState([]);
+
+  React.useEffect(() => {
+    (async () => {
+      const res = await http("/recommended-products");
+      const data = await res.json();
+      setProducts(data.result);
+      console.log(data.result);
+    })();
+  }, []);
 
   return (
     <main>
@@ -133,10 +143,24 @@ export default function Home() {
         <h2 className="text-5xl">
           Here is People’s <span className="text-[#8E6447]">Favorite</span>
         </h2>
-
         <div className="mt-4 flex justify-center">
           <div className="w-20 border-b-8 border-orange-500"></div>
         </div>
+        <section className="mx-20 my-10 flex justify-center gap-10">
+          {products.map((item,id) => {
+            return (
+              <div className="flex flex-col justify-center" key={id}>
+                <img src={item.image_path} alt="image" className="h-50 w-60" />
+                <div className="relative -top-10 left-5 mt-2 h-40 w-50 bg-white px-2 py-1 text-left rounded">
+                  <div className="font-semibold text-black">{item.name}</div>
+                  <p className="line-clamp-2">{item.message}</p>
+                  <p className="text-orange-500">IDR {item.price}</p>
+                  <button className="bg-orange-400 px-15 rounded">Buy</button>
+                </div>
+              </div>
+            );
+          })}
+        </section>
       </section>
       {/*  */}
       <MapCoffe />
