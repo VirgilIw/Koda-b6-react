@@ -46,7 +46,7 @@ export default function ForgotPassword() {
           <img
             src={forgot}
             alt="forgot-image"
-            className="h-full w-full object-center"
+            className="h-full w-96 object-center"
           />
         </section>
 
