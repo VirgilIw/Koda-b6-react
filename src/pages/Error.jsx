@@ -94,7 +94,7 @@ export default function Error() {
             Page Not Found
           </h2>
 
-          <div className="my-5 h-px bg-gradient-to-r from-transparent via-orange-500/30 to-transparent" />
+          <div className="my-5 h-px bg-linear-to-r from-transparent via-orange-500/30 to-transparent" />
 
           <p className="text-sm leading-relaxed text-white/40">
             The page you're looking for may have been removed, renamed, or is
