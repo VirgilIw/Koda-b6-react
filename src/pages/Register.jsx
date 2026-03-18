@@ -10,6 +10,7 @@ import profile from "../assets/auth/profile.svg";
 import Password from "../assets/auth/password.svg";
 import MediaAuth from "../components/auth/MediaAuth";
 import { registerContext } from "../contexts/register/registerContext";
+import http from "../lib/http";
 
 export default function Register() {
   const [openEye, setOpenEye] = React.useState({
@@ -74,26 +75,25 @@ export default function Register() {
     }
 
     const payload = {
-      name: form.name,
+      fullname: form.name,
       email: form.email,
       password: form.password,
     };
 
     try {
-      // ambil data lama
-      const users = JSON.parse(localStorage.getItem("users")) || [];
+      const res = await http("/auth/register", JSON.stringify(payload), {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-      // cek email sudah ada atau belum
-      const isEmailExist = users.some((user) => user.email === form.email);
+      const data = await res.json();
 
-      if (isEmailExist) {
-        setErrorMessage("Email already registered");
+      if (!data.success) {
+        setErrorMessage(data.error);
         return;
       }
-
-      // simpan user baru
-      users.push(payload);
-      localStorage.setItem("users", JSON.stringify(users));
 
       // update context
       dispatch({ type: "REGISTER", payload });
@@ -105,7 +105,7 @@ export default function Register() {
         password: "",
         confirmPassword: "",
       });
-
+      setSuccessMsg("Register success");
       setErrorMessage("");
     } catch (error) {
       console.log(error);
@@ -128,7 +128,7 @@ export default function Register() {
       </section>
 
       {/* RIGHT */}
-      <section className="flex lg:h-screen items-center justify-center px-6 pt-2 lg:mx-20">
+      <section className="flex items-center justify-center px-6 pt-2 lg:mx-20 lg:h-screen">
         <div className="w-full space-y-4 px-2 lg:min-w-full">
           {/* Header */}
           <div>
