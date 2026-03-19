@@ -1,5 +1,5 @@
 import React from "react";
-import forgot from "../assets/auth/forgot-password.jpg";
+import forgot from "../assets/auth/forgot-password.svg";
 import http from "../lib/http";
 import { Link } from "react-router";
 
@@ -46,12 +46,12 @@ export default function ForgotPassword() {
           <img
             src={forgot}
             alt="forgot-image"
-            className="h-full w-96 object-center"
+            className="h-screen w-full object-contain object-left"
           />
         </section>
 
         {/* Form */}
-        <section className="flex min-h-screen items-center">
+        <section className="flex min-h-screen items-center justify-center">
           <form
             onSubmit={handleSubmit}
             className="flex w-full max-w-4xl flex-col gap-5"
