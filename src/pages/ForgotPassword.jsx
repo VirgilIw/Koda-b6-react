@@ -1,5 +1,6 @@
 import React from "react";
 import forgot from "../assets/auth/forgot-password.svg";
+import Mail from "../assets/auth/mail.svg";
 import http from "../lib/http";
 import { Link } from "react-router";
 
@@ -56,8 +57,12 @@ export default function ForgotPassword() {
             onSubmit={handleSubmit}
             className="flex w-full max-w-4xl flex-col gap-5"
           >
-            <h1 className="text-3xl font-semibold">Forgot Password</h1>
-
+            <h1 className="text-3xl font-semibold text-[#8E6447]">
+              Fill out the form correctly
+            </h1>
+            <p className="text-[#4F5665]">
+              We will send new password to your email
+            </p>
             {error && <p className="text-sm text-red-500">{error}</p>}
 
             <div className="flex flex-col">
@@ -65,14 +70,22 @@ export default function ForgotPassword() {
                 Email
               </label>
 
-              <input
-                type="email"
-                id="email"
-                value={email}
-                className="rounded-md border px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter your email"
-                onChange={(e) => setEmail(e.target.value)}
-              />
+              <div className="relative">
+                <img
+                  src={Mail}
+                  alt="mail"
+                  className="absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2 opacity-60"
+                />
+
+                <input
+                  type="email"
+                  id="email"
+                  value={email}
+                  className="w-full rounded-md border py-3 pr-4 pl-10 outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Enter your email"
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
             </div>
             <div className="flex justify-end">
               <Link to="/reset-password" className="hover:text-orange-400">
