@@ -1,23 +1,22 @@
 import React from "react";
 import { useSearchParams } from "react-router";
+import http from "../../lib/http";
 
-const CATEGORIES = [
-  "favorite-product",
-  "coffee",
-  "non-coffee",
-  "foods",
-  "add-on",
+const SORT_OPTIONS = [
+  { label: "Flash Sale", value: "is_flash_sale" },
+  { label: "Buy 1 Get 1", value: "is_buy1get1" },
+  { label: "Birthday Package", value: "is_birthday_package" },
+  { label: "Cheap", value: "cheap" },
 ];
-const SORT_OPTIONS = ["priciest", "cheapest", "recommended", "latest"];
 
 export default function FormProduct() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [isOpen, setIsOpen] = React.useState(false);
+  const [categories, setCategories] = React.useState([]);
 
-  // State dari URL params
   const [search, setSearch] = React.useState(searchParams.get("search") || "");
   const [selectedCategories, setSelectedCategories] = React.useState(
-    searchParams.get("categories")?.split(",") || [],
+    searchParams.get("categories")?.split(",").filter(Boolean) || [],
   );
   const [selectedSort, setSelectedSort] = React.useState(
     searchParams.get("sort") || "",
@@ -27,19 +26,28 @@ export default function FormProduct() {
     max: Number(searchParams.get("maxPrice")) || 100000,
   });
 
-  // Handle category toggle
+  React.useEffect(() => {
+    (async () => {
+      try {
+        const res = await http("/admin/categories");
+        const json = await res.json();
+        setCategories(json.result || []);
+      } catch (err) {
+        console.error("Fetch categories error:", err);
+      }
+    })();
+  }, []);
+
   const toggleCategory = (cat) => {
     setSelectedCategories((prev) =>
       prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat],
     );
   };
 
-  // Handle sort toggle
   const toggleSort = (sort) => {
     setSelectedSort((prev) => (prev === sort ? "" : sort));
   };
 
-  // Handle range
   const handleMinChange = (e) => {
     const value = Number(e.target.value);
     setRange((prev) => ({ ...prev, min: Math.min(value, prev.max - 1000) }));
@@ -50,33 +58,45 @@ export default function FormProduct() {
     setRange((prev) => ({ ...prev, max: Math.max(value, prev.min + 1000) }));
   };
 
-  // Apply filter → set ke URL params
   const handleApply = (e) => {
     e.preventDefault();
 
     const params = {};
+    params.page = 1;
+
     if (search) params.search = search;
-    if (selectedCategories.length > 0)
+
+    if (selectedCategories.length > 0) {
       params.categories = selectedCategories.join(",");
-    if (selectedSort) params.sort = selectedSort;
+    }
+
+    if (selectedSort === "is_flash_sale") params.is_flash_sale = true;
+    if (selectedSort === "is_buy1get1") params.is_buy1get1 = true;
+
+    if (selectedSort === "is_birthday_package") {
+      params.is_birthday_package = true;
+    } else if (selectedCategories.includes("Favorite Product")) {
+      params.recommended = true;
+    }
+
+    if (selectedSort === "cheap") params.cheap = true;
+
     if (range.min !== 2000) params.minPrice = range.min;
     if (range.max !== 100000) params.maxPrice = range.max;
 
     setSearchParams(params);
   };
 
-  // Reset filter → hapus semua params
   const handleReset = () => {
     setSearch("");
     setSelectedCategories([]);
     setSelectedSort("");
     setRange({ min: 2000, max: 100000 });
-    setSearchParams({});
+    setSearchParams({ page: 1 });
   };
 
   return (
     <>
-      {/* TOGGLE BUTTON - hanya muncul di mobile */}
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
@@ -85,11 +105,9 @@ export default function FormProduct() {
         {isOpen ? "Hide Filter" : "Show Filter"}
       </button>
 
-      {/* ASIDE */}
       <aside
         className={`h-[105vh] rounded-2xl bg-black p-6 text-white md:block ${isOpen ? "block" : "hidden"}`}
       >
-        {/* HEADER */}
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold">Filter</h2>
           <button
@@ -123,24 +141,24 @@ export default function FormProduct() {
             <p className="text-sm font-bold tracking-widest uppercase opacity-60">
               Category
             </p>
-            {CATEGORIES.map((cat) => (
+            {categories.map((cat) => (
               <label
-                key={cat}
+                key={cat.id}
                 className="group flex cursor-pointer items-center gap-3"
               >
                 <div className="relative flex items-center">
                   <input
                     type="checkbox"
                     className="peer h-5 w-5 appearance-none rounded-md border-2 border-white/20 shadow-sm transition-all checked:border-orange-400 checked:bg-orange-400 focus:ring-1 focus:ring-orange-400"
-                    checked={selectedCategories.includes(cat)}
-                    onChange={() => toggleCategory(cat)}
+                    checked={selectedCategories.includes(cat.categories_name)}
+                    onChange={() => toggleCategory(cat.categories_name)}
                   />
                   <div className="pointer-events-none absolute inset-0 flex items-center justify-center text-white opacity-0 transition-opacity peer-checked:opacity-100">
                     ✓
                   </div>
                 </div>
                 <span className="text-sm font-medium opacity-80 transition-opacity group-hover:opacity-100">
-                  {cat}
+                  {cat.categories_name}
                 </span>
               </label>
             ))}
@@ -153,7 +171,7 @@ export default function FormProduct() {
             </p>
             {SORT_OPTIONS.map((sort) => (
               <label
-                key={sort}
+                key={sort.value}
                 className="group flex cursor-pointer items-center gap-3"
               >
                 <div className="relative flex items-center">
@@ -161,28 +179,16 @@ export default function FormProduct() {
                     type="radio"
                     name="sortBy"
                     className="peer h-5 w-5 appearance-none rounded-md border-2 border-white/20 shadow-sm transition-all checked:border-orange-400 checked:bg-orange-400 focus:ring-1 focus:ring-orange-400"
-                    checked={selectedSort === sort}
-                    onClick={() => toggleSort(sort)}
+                    checked={selectedSort === sort.value}
+                    onClick={() => toggleSort(sort.value)}
                     onChange={() => {}}
                   />
                   <div className="pointer-events-none absolute inset-0 flex items-center justify-center text-white opacity-0 transition-opacity peer-checked:opacity-100">
-                    <svg
-                      className="h-3 w-3"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="4"
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
+                    ✓
                   </div>
                 </div>
                 <span className="text-sm font-medium opacity-80 transition-opacity group-hover:opacity-100">
-                  {sort}
+                  {sort.label}
                 </span>
               </label>
             ))}
@@ -227,7 +233,6 @@ export default function FormProduct() {
             </div>
           </div>
 
-          {/* APPLY BUTTON */}
           <button
             type="submit"
             className="w-full rounded-xl bg-orange-400 py-4 font-extrabold text-black shadow-lg transition-all duration-300 hover:bg-orange-500 hover:text-white"

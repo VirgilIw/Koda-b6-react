@@ -1,175 +1,127 @@
 import React from "react";
-import { useNavigate, useSearchParams } from "react-router";
-import useFetch from "../../hooks/useFetch";
+import { useSearchParams } from "react-router";
 import Pagination from "./Pagination";
 import Star from "../../assets/home/Star.svg";
 import Shoppingcart from "../../assets/product/ShoppingCart.svg";
+import http from "../../lib/http";
 
 export default function MenuProduct() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const navigate = useNavigate();
 
-  // Ambil semua params dari URL
+  const [data, setData] = React.useState([]);
+  const [totalPages, setTotalPages] = React.useState(1);
+  const [loading, setLoading] = React.useState(true);
+
+  // GET PARAMS
   const page = Number(searchParams.get("page")) || 1;
-  const search = searchParams.get("search") || "";
-  const categories =
-    searchParams.get("categories")?.split(",").filter(Boolean) || [];
-  const sort = searchParams.get("sort") || "";
-  const minPrice = Number(searchParams.get("minPrice")) || 0;
-  const maxPrice = Number(searchParams.get("maxPrice")) || 100000;
 
-  const data = useFetch("/product.json");
-  const limit = 6;
-
-  if (!data) return <p className="p-4">Loading...</p>;
-
-  // 1. COPY DATA
-  let products = [...data.products];
-  console.log(products);
-  // 2. FILTER SEARCH
-  if (search) {
-    products = products.filter((p) =>
-      p.name.toLowerCase().includes(search.toLowerCase()),
-    );
+  // SET PAGE (update URL)
+  function setPage(newPage) {
+    if (newPage < 1 || newPage > totalPages) return;
+    const params = new URLSearchParams(searchParams);
+    params.set("page", newPage);
+    setSearchParams(params);
   }
 
-  // 3. FILTER CATEGORY
-  if (categories.length > 0) {
-    products = products.filter((p) => {
-      return categories.some((cat) => {
-        if (cat === "favorite-product") {
-          return p.rating >= 4.8; // anggap favorite kalau rating >= 4
-        } else if (cat === "coffe") {
-          return p.categoriy === "coffe";
-        } else if (cat === "non-coffe") {
-          return p.category === "non-coffe";
-        }
-        return p.category?.toLowerCase() === cat.toLowerCase();
-      });
-    });
-  }
+  // FETCH DATA
+  React.useEffect(() => {
+  (async () => {
+    try {
+      setLoading(true);
 
-  // 4. FILTER RANGE PRICE
-  products = products.filter((p) => p.price >= minPrice && p.price <= maxPrice);
+      const res = await http(
+        `/admin/products/search?${searchParams.toString()}`
+      );
 
-  // 5. SORT
-  if (sort === "cheapest") {
-    products = products.sort((a, b) => a.price - b.price);
-  } else if (sort === "priciest") {
-    products = products.sort((a, b) => b.price - a.price);
-  } else if (sort === "latest") {
-    products = products.sort((a, b) => b.id - a.id);
-  } else if (sort === "recommended") {
-    products = products.sort((a, b) => a.id - b.id); // default order
-  }
+      const json = await res.json();
+      setData(json.result || []);
+      setTotalPages(json.total_pages || 1);
+    } catch (err) {
+      console.error("Fetch error:", err);
+    } finally {
+      setLoading(false);
+    }
+  })();
+}, [searchParams]);
 
-  // 6. PAGINATION (SETELAH FILTER & SORT)
-  const totalData = products.length;
-  const totalPages = Math.ceil(totalData / limit);
-  const startIndex = (page - 1) * limit;
-  const currentProducts = products.slice(startIndex, startIndex + limit);
-
-  // 7. UPDATE PAGE PARAM
-  const handlePageChange = (newPage) => {
-    searchParams.set("page", newPage);
-    setSearchParams(searchParams);
-    window.scrollTo({ top: 600, behavior: "smooth" });
-  };
+  if (loading) return <p className="p-4">Loading...</p>;
+  if (!data.length) return <p className="p-4">Produk tidak ditemukan.</p>;
 
   return (
-    <div className="space-y-8">
-      {/* INFO FILTER AKTIF */}
-      {(search || categories.length > 0 || sort) && (
-        <div className="flex flex-wrap items-center gap-2 text-sm text-gray-600">
-          {search && (
-            <span className="rounded-full bg-orange-100 px-3 py-1 text-orange-700">
-              Search: "{search}"
+    <section
+      aria-label="Product List"
+      className="grid grid-cols-2 gap-x-2 gap-y-3"
+    >
+      {data.map((item) => (
+        <article key={item.id} className="relative rounded">
+          {/* Badge */}
+          {item.is_flash_sale && (
+            <span className="absolute top-2 left-2 m-2 rounded-full bg-red-500 px-2 py-1 text-xs text-white">
+              Flash Sale !
             </span>
           )}
-          {categories.map((cat) => (
-            <span
-              key={cat}
-              className="rounded-full bg-orange-100 px-3 py-1 text-orange-700"
-            >
-              {cat}
-            </span>
-          ))}
-          {sort && (
-            <span className="rounded-full bg-orange-100 px-3 py-1 text-orange-700">
-              Sort: {sort}
-            </span>
-          )}
-          <span className="text-gray-400">({totalData} products found)</span>
-        </div>
-      )}
 
-      {/* GRID PRODUCT */}
-      {currentProducts.length === 0 ? (
-        <div className="flex flex-col items-center py-20 text-gray-400">
-          <p className="text-lg font-semibold">No products found</p>
-          <p className="text-sm">Try adjusting your filter</p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-2 gap-4">
-          {currentProducts.map((item) => (
-            <div key={item.id} className=" h-135">
-              <div>
+          {/* Image */}
+          <figure>
+            <img
+              src={item.images?.[0]}
+              alt={`Image of ${item.name}`}
+              className="h-68 w-full rounded object-cover"
+            />
+            <figcaption className="sr-only">{item.name}</figcaption>
+          </figure>
+
+          {/* Content */}
+          <div className="relative bottom-10 left-5 flex w-11/12 flex-col gap-3 rounded bg-white p-4 shadow">
+            <header>
+              <h2 className="font-semibold">{item.name}</h2>
+              <p className="line-clamp-1 text-sm text-gray-500">
+                {item.description}
+              </p>
+            </header>
+
+            {/* Rating */}
+            <section className="flex items-center gap-1">
+              {[1, 2, 3, 4, 5].map((star) => (
                 <img
-                  src={item.image}
-                  alt={item.name}
-                  className="h-96 w-full rounded-lg object-cover"
+                  key={star}
+                  src={Star}
+                  alt="star"
+                  className={`h-3 w-3 ${star > Math.round(item.rating ?? 0) ? "opacity-30" : ""}`}
                 />
-              </div>
-              <div className="relative bottom-20 left-8 w-[26vw] rounded-md bg-white py-4 px-4">
-                <p className="mt-2 text-3xl font-semibold">{item.name}</p>
-                <p className="mt-2 justify-center line-clamp-2">{item.description}</p>
-                <div className="flex items-center gap-2">
-                  {[1, 2, 3, 4, 5].map((item, id) => {
-                    return (
-                      <div key={id}>
-                        <img src={Star} alt="bintang" />
-                      </div>
-                    );
-                  })}
-                  <p>{item.rating}</p>
-                </div>
-                <div className="flex gap-2">
-                  <p className="text-red-400 line-through">
-                    {item.price >= 25000 ? "IDR 30000" : "IDR 25000"}
-                  </p>
-                  <p className="text-sm text-gray-500">
-                    Rp {item.price.toLocaleString("id-ID")}
-                  </p>
-                </div>
-                <div className="mt-2 grid grid-cols-[80%_20%]">
-                  <button
-                    className="rounded bg-orange-400 py-2 hover:bg-orange-500 hover:text-white"
-                    onClick={() => {
-                      navigate(`/product/${item.id}`);
-                    }}
-                  >
-                    Buy
-                  </button>
-                  <button className="ml-4 flex justify-center rounded border border-orange-400">
-                    <img src={Shoppingcart} alt="cart" />
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+              ))}
+              <p className="text-sm">{(item.rating ?? 0).toFixed(1)}</p>
+            </section>
 
-      {/* PAGINATION */}
-      {totalPages > 1 && (
-        <div className="mt-10 flex justify-center pb-10">
-          <Pagination
-            page={page}
-            setPage={handlePageChange}
-            totalPages={totalPages}
-          />
-        </div>
-      )}
-    </div>
+            {/* Price */}
+            <footer className="flex items-center gap-2">
+              {item.is_flash_sale && (
+                <p className="text-red-400 line-through">
+                  IDR {item.price.toLocaleString("id-ID")}
+                </p>
+              )}
+              <p className="font-semibold text-orange-400">
+                IDR {item.final_price.toLocaleString("id-ID")}
+              </p>
+            </footer>
+
+            {/* Actions */}
+            <div className="grid grid-cols-[1fr_auto] gap-2">
+              <button className="rounded bg-orange-400 text-white hover:bg-orange-500">
+                Buy
+              </button>
+              <button className="flex justify-center rounded border border-orange-400 p-2">
+                <img src={Shoppingcart} alt="cart" />
+              </button>
+            </div>
+          </div>
+        </article>
+      ))}
+
+      {/* Pagination */}
+      <div className="col-span-2">
+        <Pagination page={page} setPage={setPage} totalPages={totalPages} />
+      </div>
+    </section>
   );
 }
