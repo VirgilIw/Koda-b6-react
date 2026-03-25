@@ -146,16 +146,36 @@ export default function Home() {
         <div className="mt-4 flex justify-center">
           <div className="w-20 border-b-8 border-orange-500"></div>
         </div>
-        <section className="mx-20 my-10 flex justify-center gap-10">
-          {products.map((item,id) => {
+        <section className="mx-20 my-10 flex items-stretch justify-center gap-10">
+          {products.map((item, id) => {
             return (
-              <div className="flex flex-col justify-center" key={id}>
-                <img src={item.image_path} alt="image" className="h-50 w-60" />
-                <div className="relative -top-10 left-5 mt-2 h-40 w-50 bg-white px-2 py-1 text-left rounded">
-                  <div className="font-semibold text-black">{item.name}</div>
-                  <p className="line-clamp-2">{item.message}</p>
-                  <p className="text-orange-500">IDR {item.price}</p>
-                  <button className="bg-orange-400 px-15 rounded">Buy</button>
+              <div className="flex w-60 flex-col" key={id}>
+                <img
+                  src={item.image_path}
+                  alt="image"
+                  className="h-50 w-full rounded object-cover"
+                />
+
+                {/* bagian card yang "ngangkat" */}
+                <div className="mx-auto -mt-16 w-[90%]">
+                  <div className="flex h-full flex-col rounded bg-white px-3 py-3 shadow-md">
+                    <h2 className="font-semibold text-black">{item.name}</h2>
+                    <p className="line-clamp-3">{item.description}</p>
+
+                    <div className="mt-auto">
+                      <p className="text-orange-500">IDR {item.price}</p>
+
+                      {/* button row */}
+                      <div className="mt-2 flex gap-2">
+                        <button className="w-[80%] rounded hover:bg-orange-500 bg-orange-400 py-1">
+                          Buy
+                        </button>
+                        <button className="w-1/4 rounded bg-orange-200 py-1">
+                          Cart
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             );
