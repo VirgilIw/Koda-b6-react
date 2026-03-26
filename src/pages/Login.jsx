@@ -6,11 +6,13 @@ import Mail from "../assets/auth/mail.svg";
 import Password from "../assets/auth/password.svg";
 import {
   Link,
-  useNavigate
+  // useNavigate
 } from "react-router";
 import React from "react";
 import MediaAuth from "../components/auth/MediaAuth";
 import http from "../lib/http";
+import { useDispatch } from "react-redux";
+import { login } from "../redux/slice/auth.slice";
 
 export const Login = () => {
   const [openEye, setOpenEye] = React.useState(false);
@@ -19,13 +21,16 @@ export const Login = () => {
     password: "",
   });
   const [errorMessage, setErrorMessage] = React.useState("");
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const handleEye = () => {
     setOpenEye(!openEye);
   };
 
- const handleSubmit = async (e) => {
+const dispatch = useDispatch();
+
+
+const handleSubmit = async (e) => {
   e.preventDefault();
 
   if (form.email === "" || form.password === "") {
@@ -56,7 +61,15 @@ export const Login = () => {
     }
 
     setErrorMessage("");
-    navigate("/");
+
+    dispatch(
+      login({
+        token: data.token,
+        user: data.user,
+      })
+    );
+
+    // navigate("/");
   } catch (error) {
     console.log(error);
     setErrorMessage("Something went wrong");
