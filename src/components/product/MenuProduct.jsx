@@ -2,8 +2,8 @@ import React from "react";
 import { useSearchParams } from "react-router";
 import Pagination from "./Pagination";
 import Star from "../../assets/home/Star.svg";
-import Shoppingcart from "../../assets/product/ShoppingCart.svg";
 import http from "../../lib/http";
+import Cart from "./Cart";
 
 export default function MenuProduct() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -25,24 +25,24 @@ export default function MenuProduct() {
 
   // FETCH DATA
   React.useEffect(() => {
-  (async () => {
-    try {
-      setLoading(true);
+    (async () => {
+      try {
+        setLoading(true);
 
-      const res = await http(
-        `/admin/products/search?${searchParams.toString()}`
-      );
+        const res = await http(
+          `/admin/products/search?${searchParams.toString()}`,
+        );
 
-      const json = await res.json();
-      setData(json.result || []);
-      setTotalPages(json.total_pages || 1);
-    } catch (err) {
-      console.error("Fetch error:", err);
-    } finally {
-      setLoading(false);
-    }
-  })();
-}, [searchParams]);
+        const json = await res.json();
+        setData(json.result || []);
+        setTotalPages(json.total_pages || 1);
+      } catch (err) {
+        console.error("Fetch error:", err);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, [searchParams]);
 
   if (loading) return <p className="p-4">Loading...</p>;
   if (!data.length) return <p className="p-4">Produk tidak ditemukan.</p>;
@@ -110,9 +110,7 @@ export default function MenuProduct() {
               <button className="rounded bg-orange-400 text-white hover:bg-orange-500">
                 Buy
               </button>
-              <button className="flex justify-center rounded border border-orange-400 p-2">
-                <img src={Shoppingcart} alt="cart" />
-              </button>
+              <Cart />
             </div>
           </div>
         </article>
