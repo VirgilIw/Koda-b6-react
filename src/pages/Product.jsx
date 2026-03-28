@@ -8,8 +8,15 @@ import yellowKupon from "../assets/product/yellow-coupon.png";
 import FormProduct from "../components/product/FormProduct";
 import MenuProduct from "../components/product/MenuProduct";
 import Pagination from "../components/product/Pagination";
+import { useNavigate } from "react-router";
 
 export default function Product() {
+  const navigate = useNavigate();
+
+  const handleBuy = (id) => {
+    navigate(`/product/${id}`)
+  };
+
   return (
     <>
       {/* HERO */}
@@ -75,7 +82,7 @@ export default function Product() {
         </div>
         <div className="mt-4 grid grid-cols-[30%_70%] gap-4">
           <FormProduct />
-          <MenuProduct />
+          <MenuProduct handleBuy={handleBuy}/>
         </div>
       </section>
     </>

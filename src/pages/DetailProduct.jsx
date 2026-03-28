@@ -1,10 +1,10 @@
 import React from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router";
-import useFetch from "../hooks/useFetch";
 import Star from "../assets/home/Star.svg";
 
 import Pagination from "../components/product/Pagination";
 import RightSection from "../components/detail-product/RightSection";
+import http from "../lib/http";
 
 export default function DetailProduct() {
   const { id } = useParams();
@@ -13,28 +13,42 @@ export default function DetailProduct() {
 
   const page = Number(searchParams.get("page")) || 1;
 
+  // ===== STATE =====
+  const [product, setProduct] = React.useState({});
+  const [products, setProducts] = React.useState([]);
+
   const [pcsProduct, setPcsProduct] = React.useState(1);
   const [size, setSize] = React.useState("Regular");
   const [temperature, setTemperature] = React.useState("Ice");
 
-  const data = useFetch("/product.json");
+  // ===== FETCH DETAIL =====
+  React.useEffect(() => {
+    (async () => {
+      const res = await http(`/admin/products/${id}`);
+      const data = await res.json();
+      console.log(data.result);
+      setProduct(data.result);
+    })();
+  }, [id]);
 
-  // WAIT DATA FIRST
-  if (!data) return <p className="p-10">Loading...</p>;
+  // ===== FETCH RECOMMENDATION =====
+  React.useEffect(() => {
+    (async () => {
+      const res = await http(`/admin/products?page=${page}`);
+      const data = await res.json();
+      console.log(data.result)
+      setProducts(data.result || []);
+    })();
+  }, [page]);
 
-  const limit = 3;
-  const products = [...data.products];
+  // ===== PAGINATION =====
+  const itemsPerPage = 4;
+  const totalPages = Math.ceil(products.length / itemsPerPage);
 
-  // ===== DETAIL PRODUCT =====
-  const product = products.find((item) => item.id === Number(id));
-
-  if (!product) return <p>Product not found</p>;
-
-  // ===== RECOMMENDATION PAGINATION =====
-  const totalData = products.length;
-  const totalPages = Math.ceil(totalData / limit);
-  const startIndex = (page - 1) * limit;
-  const currentProducts = products.slice(startIndex, startIndex + limit);
+  const currentProducts = products.slice(
+    (page - 1) * itemsPerPage,
+    page * itemsPerPage,
+  );
 
   // ===== PARAM HELPER =====
   const updateParams = (key, value) => {
@@ -64,17 +78,9 @@ export default function DetailProduct() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const payload = {
-      productId: product.id,
-      qty: pcsProduct,
-      size,
-      temperature,
-    };
     navigate(
       `/checkout-product/${id}?qty=${pcsProduct}&size=${size}&temperature=${temperature}`,
     );
-
-    console.log("BUY DATA:", payload);
   };
 
   const handleChangeSize = (e) => {
@@ -95,32 +101,26 @@ export default function DetailProduct() {
 
     window.scrollTo({ top: 800, behavior: "smooth" });
   };
+  const images = product?.images || [];
 
   return (
     <main>
-      {/* ===== DETAIL SECTION ===== */}
+      {/* ===== DETAIL ===== */}
       <section className="mt-20 grid grid-cols-2 gap-10 p-20">
-        {/* LEFT IMAGE */}
         <div>
           <img
-            src={product.image}
-            alt={product.name}
-            className="aspect-4/3 w-full rounded-lg object-cover"
+            src={images[0]}
+            alt={product?.name}
+            className="aspect-4/3 w-full rounded-lg object-center"
           />
 
           <div className="mt-4 grid grid-cols-3 gap-4">
-            {[1, 2, 3].map((_, i) => (
-              <img
-                key={i}
-                src={product.image}
-                alt={product.name}
-                className="aspect-square w-full rounded-md object-cover"
-              />
+            {images.slice(1, 4).map((img, i) => (
+              <img key={i} src={img} alt={product?.name} />
             ))}
           </div>
         </div>
 
-        {/* RIGHT CONTENT */}
         <RightSection
           handleChangeSize={handleChangeSize}
           handleChangeTemperature={handleChangeTemperature}
@@ -136,7 +136,7 @@ export default function DetailProduct() {
 
       {/* ===== RECOMMENDATION ===== */}
       <section className="px-20">
-        <div className="flex gap-4">
+        <div className="grid grid-cols-4 gap-6">
           {currentProducts.map((item) => (
             <div key={item.id}>
               <img
