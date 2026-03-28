@@ -5,7 +5,7 @@ import Star from "../../assets/home/Star.svg";
 import http from "../../lib/http";
 import Cart from "./Cart";
 
-export default function MenuProduct() {
+export default function MenuProduct({ handleBuy }) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [data, setData] = React.useState([]);
@@ -107,7 +107,10 @@ export default function MenuProduct() {
 
             {/* Actions */}
             <div className="grid grid-cols-[1fr_auto] gap-2">
-              <button className="rounded bg-orange-400 text-white hover:bg-orange-500">
+              <button
+                className="rounded bg-orange-400 text-white hover:bg-orange-500"
+                onClick={()=>handleBuy(item.id)}
+              >
                 Buy
               </button>
               <Cart />
