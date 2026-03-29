@@ -118,7 +118,7 @@ function ProductChart() {
   const weeklyRanges = generateWeeklyRanges();
 
   return (
-    <div className="min-w-150 p-5">
+    <div className="w-6xl px-4">
       <div className="grid grid-cols-3 gap-4 overflow-x-scroll whitespace-nowrap text-white">
         <div className="flex flex-col justify-center gap-2 rounded-lg border-0 bg-green-700 p-4">
           <div className="flex items-center gap-2">
