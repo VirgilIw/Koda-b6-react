@@ -52,7 +52,7 @@ export default function RightSection({
         {[1, 2, 3, 4, 5].map((_, i) => (
           <img key={i} src={Star} alt="star" className="h-4 w-4" />
         ))}
-        <p>{product?.rating || 0}</p>
+    <p>{product?.rating ? product.rating.toFixed(1) : 0}</p>
       </div>
 
       {/* REVIEW */}
