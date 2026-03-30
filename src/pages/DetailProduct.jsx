@@ -36,7 +36,7 @@ export default function DetailProduct() {
     (async () => {
       const res = await http(`/admin/products?page=${page}`);
       const data = await res.json();
-      console.log(data.result)
+      console.log(data.result);
       setProducts(data.result || []);
     })();
   }, [page]);
@@ -59,19 +59,15 @@ export default function DetailProduct() {
 
   // ===== QTY =====
   const handleIncrement = () => {
-    setPcsProduct((prev) => {
-      const newQty = prev + 1;
-      updateParams("qty", newQty);
-      return newQty;
-    });
+    const newQty = pcsProduct + 1;
+    setPcsProduct(newQty);
+    updateParams("qty", newQty);
   };
 
   const handleDecrement = () => {
-    setPcsProduct((prev) => {
-      const newQty = Math.max(1, prev - 1);
-      updateParams("qty", newQty);
-      return newQty;
-    });
+    const newQty = Math.max(1, pcsProduct - 1);
+    setPcsProduct(newQty);
+    updateParams("qty", newQty);
   };
 
   // ===== FORM =====
@@ -104,14 +100,14 @@ export default function DetailProduct() {
   const images = product?.images || [];
 
   React.useEffect(() => {
-  const sizeParam = searchParams.get("size");
-  const tempParam = searchParams.get("temperature");
-  const qtyParam = searchParams.get("qty");
+    const sizeParam = searchParams.get("size");
+    const tempParam = searchParams.get("temperature");
+    const qtyParam = searchParams.get("qty");
 
-  if (sizeParam) setSize(sizeParam);
-  if (tempParam) setTemperature(tempParam);
-  if (qtyParam) setPcsProduct(Number(qtyParam));
-}, [searchParams]);
+    if (sizeParam) setSize(sizeParam);
+    if (tempParam) setTemperature(tempParam);
+    if (qtyParam) setPcsProduct(Number(qtyParam));
+  }, [searchParams]);
 
   return (
     <main>
@@ -163,7 +159,7 @@ export default function DetailProduct() {
                   {[1, 2, 3, 4, 5].map((_, i) => (
                     <img key={i} src={Star} alt="star" />
                   ))}
-                  <p>{item.rating}</p>
+                  <p>{item.rating.toFixed(3)}</p>
                 </div>
 
                 <button className="mt-2 w-full rounded bg-orange-400 py-2">
