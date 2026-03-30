@@ -6,7 +6,7 @@ import Mail from "../assets/auth/mail.svg";
 import Password from "../assets/auth/password.svg";
 import {
   Link,
-  // useNavigate
+  useNavigate
 } from "react-router";
 import React from "react";
 import MediaAuth from "../components/auth/MediaAuth";
@@ -21,60 +21,62 @@ export const Login = () => {
     password: "",
   });
   const [errorMessage, setErrorMessage] = React.useState("");
-  // const navigate = useNavigate();
+  const [successMessage, setSuccessMessage] = React.useState("");
+
+  const navigate = useNavigate();
 
   const handleEye = () => {
     setOpenEye(!openEye);
   };
 
-const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-
-  if (form.email === "" || form.password === "") {
-    setErrorMessage("Email and password cannot be empty");
-    return;
-  }
-
-  try {
-    const res = await http(
-      "/auth/login",
-      JSON.stringify({
-        email: form.email,
-        password: form.password,
-      }),
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
-    const data = await res.json();
-
-    if (!res.ok) {
-      setErrorMessage(data.message || "Login failed");
+    if (form.email === "" || form.password === "") {
+      setErrorMessage("Email and password cannot be empty");
       return;
     }
 
-    setErrorMessage("");
+    try {
+      const res = await http(
+        "/auth/login",
+        JSON.stringify({
+          email: form.email,
+          password: form.password,
+        }),
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
 
-    dispatch(
-      login({
-        token: data.token,
-        user: data.user,
-      })
-    );
+      const data = await res.json();
+      console.log(data);
 
-    // navigate("/");
-  } catch (error) {
-    console.log(error);
-    setErrorMessage("Something went wrong");
-  }
-};
+      if (!res.ok) {
+        setErrorMessage(data.message || "Login failed");
+        return;
+      }
+
+      setErrorMessage("");
+      setSuccessMessage("Login berhasil!");
+      dispatch(
+        login({
+          token: data.token,
+          user: data.user,
+        }),
+      );
+
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+      setErrorMessage("Something went wrong");
+    }
+  };
 
   React.useEffect(() => {
     localStorage.getItem("users");
@@ -172,10 +174,12 @@ const handleSubmit = async (e) => {
 
             {/* Forgot */}
             <div className="my-4 flex items-center justify-between lg:my-6 lg:flex lg:justify-end">
-              {errorMessage ? (
+              {errorMessage && (
                 <p className="text-sm text-red-500">{errorMessage}</p>
-              ) : (
-                <div />
+              )}
+
+              {successMessage && (
+                <p className="text-xl text-green-500 mx-auto">{successMessage}</p>
               )}
               <Link to="/forgot-password" className="text-sm text-orange-400">
                 Lupa Password?
