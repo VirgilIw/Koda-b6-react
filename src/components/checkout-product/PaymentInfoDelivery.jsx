@@ -2,11 +2,11 @@ import React from "react";
 import { Mail, User, MapPin } from "lucide-react";
 
 export default function PaymentInfoDelivery({ formData, setFormData }) {
-  const data = [
-    { label: "Dine in", value: "dinein" },
-    { label: "Door Delivery", value: "door delivery" },
-    { label: "Pick Up", value: "pickup" },
-  ];
+const data = [
+  { label: "Dine In", value: "dinein" },
+  { label: "Delivery", value: "door delivery" },
+  { label: "Pick Up", value: "pickup" },
+];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
