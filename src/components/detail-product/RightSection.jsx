@@ -13,27 +13,19 @@ export default function RightSection({
   size,
   temperature,
 }) {
-  // 🔥 SAFE DATA
   const sizes = product?.sizes || [];
-  const sizePrices = product?.size_prices || [];
-  const variantPrices = product?.variant_prices || [];
+  const variants = product?.variants || [];
 
-  // 🔥 GET INDEX SIZE
-  const sizeIndex = sizes.findIndex((s) => s === size);
+  const selectedSize = sizes.find((s) => s.name === size);
+  const sizePrice = selectedSize?.price || 0;
 
-  // 🔥 GET INDEX VARIANT
-  const variantIndex =
-    temperature === "Ice"
-      ? 1
-      : temperature === "Hot"
-      ? 0
-      : 0;
+  const selectedVariant = variants.find((v) => v.name === temperature);
+  const variantPrice = selectedVariant?.price || 0;
 
-  // 🔥 PRICE CALCULATION
+  // base price
   const basePrice = Number(product?.price || 0);
-  const sizePrice = sizePrices[sizeIndex] || 0;
-  const variantPrice = variantPrices[variantIndex] || 0;
 
+  // final price
   const finalPrice = basePrice + sizePrice + variantPrice;
 
   return (
@@ -42,9 +34,7 @@ export default function RightSection({
       className="space-y-5 rounded-md bg-white px-6 py-6"
     >
       {/* TITLE */}
-      <p className="text-3xl font-semibold">
-        {product?.name || "Product"}
-      </p>
+      <p className="text-3xl font-semibold">{product?.name || "Product"}</p>
 
       {/* PRICE */}
       <div className="flex items-center gap-2">
@@ -68,10 +58,10 @@ export default function RightSection({
       {/* REVIEW */}
       <div className="flex">
         <p className="pr-3 text-gray-600">
-          {product?.totalReviews || 0}+ Review
+          {product?.total_reviews || 0}+ Review
         </p>
 
-        {(product?.totalReviews || 0) > 280 && (
+        {(product?.total_reviews || 0) > 280 && (
           <p className="flex items-center">
             <span className="px-4">|</span> Recommendation
             <img src={thumb} alt="thumb" className="pl-2" />
@@ -80,9 +70,7 @@ export default function RightSection({
       </div>
 
       {/* DESCRIPTION */}
-      <p className="text-gray-600">
-        {product?.description || "-"}
-      </p>
+      <p className="text-gray-600">{product?.description || "-"}</p>
 
       {/* QUANTITY */}
       <div className="flex items-center gap-3">
@@ -114,17 +102,20 @@ export default function RightSection({
         <p className="mb-2 font-semibold">Choose Size</p>
         <div className="grid grid-cols-3 gap-4">
           {sizes.map((item) => (
-            <label key={item} className="cursor-pointer">
+            <label key={item.name} className="cursor-pointer">
               <input
                 type="radio"
                 name="size"
-                value={item}
-                checked={size === item}
+                value={item.name}
+                checked={size === item.name}
                 onChange={handleChangeSize}
                 className="peer hidden"
               />
-              <div className="rounded-md border border-gray-300 py-3 text-center peer-checked:border-orange-500 peer-checked:bg-orange-50">
-                {item}
+              <div className="rounded-md border border-gray-300 py-3 text-center 
+                transition-all 
+                peer-checked:border-orange-500 
+                peer-checked:bg-orange-50">
+                {item.name}
               </div>
             </label>
           ))}
@@ -135,20 +126,20 @@ export default function RightSection({
       <div>
         <p className="mb-2 font-semibold">Hot / Ice?</p>
         <div className="grid grid-cols-2 gap-4">
-          {["Hot", "Ice"].map((item) => (
-            <label key={item} className="cursor-pointer">
+          {variants.map((item) => (
+            <label key={item.name} className="cursor-pointer">
               <input
                 type="radio"
                 name="temperature"
-                value={item}
-                checked={temperature === item}
-                onChange={(e) =>
-                  handleChangeTemperature(e.target.value)
-                }
+                value={item.name}
+                checked={temperature === item.name}
+                onChange={(e) => handleChangeTemperature(e.target.value)}
                 className="peer hidden"
               />
-              <div className="rounded-md border border-gray-300 py-3 text-center peer-checked:border-orange-500 peer-checked:bg-orange-50">
-                {item}
+              <div className="rounded-md border border-gray-300 py-3 text-center 
+                peer-checked:border-orange-500 
+                peer-checked:bg-orange-50">
+                {item.name}
               </div>
             </label>
           ))}
