@@ -1,20 +1,21 @@
 import React from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router";
-import useFetch from "../hooks/useFetch";
 import CardCheckout from "../components/checkout-product/CardCheckout";
 import PaymentType from "../components/checkout-product/PaymentType";
 import PaymentInfoDelivery from "../components/checkout-product/PaymentInfoDelivery";
 import AddNewProduct from "../components/checkout-product/AddNewProduct";
 import { useDispatch } from "react-redux";
 import { addOrder } from "../redux/slice/order.slice";
+import http from "../lib/http";
 
 export default function CheckoutProduct() {
-  const [searchParams] = useSearchParams();
   const { id } = useParams();
-  const data = useFetch("/product.json");
-  const [show, setShow] = React.useState(false);
+  const [searchParams] = useSearchParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [product, setProduct] = React.useState(null);
+  const [show, setShow] = React.useState(false);
 
   const [formData, setFormData] = React.useState({
     email: "",
@@ -23,59 +24,73 @@ export default function CheckoutProduct() {
     delivery: "dinein",
   });
 
-  if (!data) {
+  // query params
+  const qty = Number(searchParams.get("qty")) || 1;
+  const size = searchParams.get("size") || "Regular";
+  const temperature = searchParams.get("temperature") || "Hot";
+
+  // fetch product
+  React.useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const res = await http(`/admin/products/${id}`);
+        const data = await res.json();
+        setProduct(data.result);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchProduct();
+  }, [id]);
+
+  if (!product) {
     return <p className="p-20">Loading...</p>;
   }
 
-  const product = data.products.find((item) => item.id === Number(id));
+  // harga dari API
+  const sizePrice =
+    product.sizes?.find((item) => item.name === size)?.price || 0;
 
-  if (!product) {
-    return <p className="p-20">Product not found</p>;
-  }
+  const variantPrice =
+    product.variants?.find((item) => item.name === temperature)?.price || 0;
 
-  const qty = Number(searchParams.get("qty")) || 1;
-  const size = searchParams.get("size") || "Regular";
-  const temperature = searchParams.get("temperature") || "Ice";
+  const basePrice = product.price;
+  const finalPrice = basePrice + sizePrice + variantPrice;
 
+  //  delivery mapping (clean)
+  const deliveryMap = {
+    dinein: 0,
+    pickup: 0,
+    "door delivery": 10000,
+  };
+
+  const deliveryPrice = deliveryMap[formData.delivery] || 0;
+
+  // kalkulasi
   const tax = 4000;
-  const order = qty * product.price;
-  const subtotal = order + tax;
+  const order = qty * finalPrice;
+  const subtotal = order + tax + deliveryPrice;
 
   const handleCheckout = (e) => {
     e.preventDefault();
 
-    const timestamp = Date.now().toString().slice(-4);
-    const random = Math.floor(10000 + Math.random() * 90000);
-    const orderId = `${timestamp}-${random}`;
-
-    const formattedDate = new Date().toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "long",
-      year: "numeric",
-    });
-
-    const dataForm = Object.fromEntries(
-      Object.entries(formData).filter(([, value]) => value !== ""),
-    );
-
     const checkoutData = {
-      orderId,
-      dataForm,
       items: [
         {
           product,
           qty,
           size,
           temperature,
+          finalPrice,
         },
       ],
+      delivery: formData.delivery,
+      deliveryPrice,
       subtotal,
-      createdAt: formattedDate,
-      status: "On Progress",
     };
 
     dispatch(addOrder(checkoutData));
-    console.log("Checkout Data:", checkoutData);
     navigate("/history-order");
   };
 
@@ -87,28 +102,20 @@ export default function CheckoutProduct() {
 
       <form onSubmit={handleCheckout}>
         <section className="mt-10 grid grid-cols-[2fr_1fr] gap-8 px-18">
-          {/* LEFT SIDE */}
+          {/* LEFT */}
           <div>
             <div className="flex items-center justify-between">
-              <p
-                className={`text-xl font-semibold ${show ? "hidden" : "block"}`}
+              <p className="text-xl font-semibold">Your Order</p>
+
+              <button
+                type="button"
+                className="rounded bg-orange-400 px-3 py-2 text-sm hover:bg-orange-500 hover:text-white"
+                onClick={() => setShow(true)}
               >
-                Your Order
-              </p>
+                + Add Menu
+              </button>
 
-              {!show && (
-                <button
-                  type="button"
-                  className="rounded bg-orange-400 px-3 py-2 text-sm hover:bg-orange-500 hover:text-white"
-                  onClick={() => setShow(true)}
-                >
-                  + Add Menu
-                </button>
-              )}
-
-              {show && (
-                <AddNewProduct data={data} onClose={() => setShow(false)} />
-              )}
+              {show && <AddNewProduct onClose={() => setShow(false)} />}
             </div>
 
             <CardCheckout
@@ -117,6 +124,7 @@ export default function CheckoutProduct() {
               size={size}
               temperature={temperature}
               delivery={formData.delivery}
+              finalPrice={finalPrice}
             />
 
             <div className="mt-8">
@@ -127,7 +135,7 @@ export default function CheckoutProduct() {
             </div>
           </div>
 
-          {/* RIGHT SIDE - SUMMARY */}
+          {/* RIGHT */}
           <div className="sticky top-20">
             <p className="p-1 text-xl font-semibold">Total</p>
 
@@ -141,12 +149,16 @@ export default function CheckoutProduct() {
 
               <div className="flex justify-between py-1">
                 <p>Delivery</p>
-                <p className="font-bold">Idr. 0</p>
+                <p className="font-bold">
+                  Idr. {deliveryPrice.toLocaleString("id-ID")}
+                </p>
               </div>
 
               <div className="flex justify-between py-1">
                 <p>Tax</p>
-                <p className="font-bold">Idr. {tax.toLocaleString("id-ID")}</p>
+                <p className="font-bold">
+                  Idr. {tax.toLocaleString("id-ID")}
+                </p>
               </div>
 
               <div className="my-3 h-px bg-gray-200" />
@@ -160,7 +172,7 @@ export default function CheckoutProduct() {
 
               <button
                 type="submit"
-                className="mt-6 w-full rounded-lg bg-orange-500 py-3 font-semibold text-white hover:bg-orange-600"
+                className="mt-6 w-full rounded-lg bg-orange-500 py-3 font-semibold text-white"
               >
                 Checkout
               </button>
