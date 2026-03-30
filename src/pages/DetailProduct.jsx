@@ -19,7 +19,7 @@ export default function DetailProduct() {
 
   const [pcsProduct, setPcsProduct] = React.useState(1);
   const [size, setSize] = React.useState("Regular");
-  const [temperature, setTemperature] = React.useState("Ice");
+  const [temperature, setTemperature] = React.useState("Hot");
 
   // ===== FETCH DETAIL =====
   React.useEffect(() => {
@@ -102,6 +102,16 @@ export default function DetailProduct() {
     window.scrollTo({ top: 800, behavior: "smooth" });
   };
   const images = product?.images || [];
+
+  React.useEffect(() => {
+  const sizeParam = searchParams.get("size");
+  const tempParam = searchParams.get("temperature");
+  const qtyParam = searchParams.get("qty");
+
+  if (sizeParam) setSize(sizeParam);
+  if (tempParam) setTemperature(tempParam);
+  if (qtyParam) setPcsProduct(Number(qtyParam));
+}, [searchParams]);
 
   return (
     <main>

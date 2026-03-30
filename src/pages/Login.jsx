@@ -55,8 +55,6 @@ export const Login = () => {
       );
 
       const data = await res.json();
-      console.log(data);
-
       if (!res.ok) {
         setErrorMessage(data.message || "Login failed");
         return;
@@ -66,8 +64,8 @@ export const Login = () => {
       setSuccessMessage("Login berhasil!");
       dispatch(
         login({
-          token: data.token,
-          user: data.user,
+          token: data.result.token,
+          user: data.result.user,
         }),
       );
 
