@@ -105,8 +105,10 @@ export default function FormProduct() {
         {isOpen ? "Hide Filter" : "Show Filter"}
       </button>
 
-      <aside
-        className={`h-[105vh] rounded-2xl bg-black p-6 text-white md:block ${isOpen ? "block" : "hidden"}`}
+      <aside 
+        className={`sticky top-25 h-fit rounded-2xl bg-black p-6 text-white md:block ${
+          isOpen ? "block" : "hidden"
+        }`}
       >
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold">Filter</h2>
