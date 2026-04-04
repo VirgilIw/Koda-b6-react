@@ -28,6 +28,7 @@ export default function RightSection({
   // final price
   const finalPrice = basePrice + sizePrice + variantPrice;
 
+  const totalPrice = finalPrice * pcsProduct;
   return (
     <form
       onSubmit={handleSubmit}
@@ -43,7 +44,7 @@ export default function RightSection({
         </p>
 
         <p className="text-lg font-semibold text-orange-500">
-          IDR {finalPrice.toLocaleString("id-ID")}
+          IDR {totalPrice.toLocaleString("id-ID")}
         </p>
       </div>
 

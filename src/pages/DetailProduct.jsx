@@ -137,6 +137,7 @@ export default function DetailProduct() {
           pcsProduct={pcsProduct}
           size={size}
           temperature={temperature}
+          searchParams={searchParams}
         />
       </section>
 
