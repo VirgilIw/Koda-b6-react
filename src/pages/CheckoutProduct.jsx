@@ -4,14 +4,11 @@ import CardCheckout from "../components/checkout-product/CardCheckout";
 import PaymentType from "../components/checkout-product/PaymentType";
 import PaymentInfoDelivery from "../components/checkout-product/PaymentInfoDelivery";
 import AddNewProduct from "../components/checkout-product/AddNewProduct";
-import { useDispatch } from "react-redux";
-import { addOrder } from "../redux/slice/order.slice";
 import http from "../lib/http";
 
 export default function CheckoutProduct() {
   const { id } = useParams();
   const [searchParams] = useSearchParams();
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [product, setProduct] = React.useState(null);
@@ -72,26 +69,56 @@ export default function CheckoutProduct() {
   const order = qty * finalPrice;
   const subtotal = order + tax + deliveryPrice;
 
-  const handleCheckout = (e) => {
+  const handleCheckout = async (e) => {
     e.preventDefault();
 
-    const checkoutData = {
-      items: [
-        {
-          product,
-          qty,
-          size,
-          temperature,
-          finalPrice,
-        },
-      ],
-      delivery: formData.delivery,
-      deliveryPrice,
-      subtotal,
-    };
+    try {
+      const payload = {
+        email: formData.email,
+        full_name: formData.fullName,
+        address: formData.address,
 
-    dispatch(addOrder(checkoutData));
-    navigate("/history-order");
+        delivery_method: formData.delivery,
+        delivery_fee: deliveryPrice,
+
+        payment_method: "cash", 
+
+        tax: tax,
+        subtotal_price: order,
+        total_price: subtotal,
+
+        items: [
+          {
+            product_id: product.id,
+            qty,
+            size,
+            variant: temperature,
+            price: finalPrice,
+          },
+        ],
+      };
+
+      const res = await http("/transactions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer token`,
+        
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "checkout failed");
+      }
+
+      navigate("/history-order");
+    } catch (err) {
+      console.error(err);
+      alert(err.message);
+    }
   };
 
   return (
@@ -156,9 +183,7 @@ export default function CheckoutProduct() {
 
               <div className="flex justify-between py-1">
                 <p>Tax</p>
-                <p className="font-bold">
-                  Idr. {tax.toLocaleString("id-ID")}
-                </p>
+                <p className="font-bold">Idr. {tax.toLocaleString("id-ID")}</p>
               </div>
 
               <div className="my-3 h-px bg-gray-200" />
@@ -176,7 +201,6 @@ export default function CheckoutProduct() {
               >
                 Checkout
               </button>
-
               <div className="py-4 font-light">
                 <PaymentType />
               </div>

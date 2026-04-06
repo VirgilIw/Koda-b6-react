@@ -62,6 +62,7 @@ export const Login = () => {
 
       setErrorMessage("");
       setSuccessMessage("Login berhasil!");
+      console.log("TOKEN:", data.result.token)
       dispatch(
         login({
           token: data.result.token,
