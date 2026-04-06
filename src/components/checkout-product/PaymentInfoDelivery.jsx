@@ -1,5 +1,6 @@
 import React from "react";
 import { Mail, User, MapPin } from "lucide-react";
+import { useSelector } from "react-redux";
 
 export default function PaymentInfoDelivery({ formData, setFormData }) {
 const data = [
@@ -16,6 +17,17 @@ const data = [
       [name]: value,
     }));
   };
+const user = useSelector((state) => state.auth.user);
+React.useEffect(() => {
+  if (user) {
+    setFormData((prev) => ({
+      ...prev,
+      email: user.email || "",
+      fullName: user.fullname || "",
+      address: user.address || ""
+    }));
+  }
+}, [setFormData, user]);
 
   return (
     <div className="mb-5 w-full max-w-3xl">
