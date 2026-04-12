@@ -5,6 +5,7 @@ import PaymentType from "../components/checkout-product/PaymentType";
 import PaymentInfoDelivery from "../components/checkout-product/PaymentInfoDelivery";
 import AddNewProduct from "../components/checkout-product/AddNewProduct";
 import http from "../lib/http";
+import { useSelector } from "react-redux";
 
 export default function CheckoutProduct() {
   const { id } = useParams();
@@ -20,11 +21,14 @@ export default function CheckoutProduct() {
     address: "",
     delivery: "dinein",
   });
+  const [error, setError] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
 
   // query params
   const qty = Number(searchParams.get("qty")) || 1;
   const size = searchParams.get("size") || "Regular";
   const temperature = searchParams.get("temperature") || "Hot";
+  const token = useSelector((state) => state.auth.token);
 
   // fetch product
   React.useEffect(() => {
@@ -72,6 +76,9 @@ export default function CheckoutProduct() {
   const handleCheckout = async (e) => {
     e.preventDefault();
 
+    setError("");
+    setLoading(true);
+
     try {
       const payload = {
         email: formData.email,
@@ -79,13 +86,7 @@ export default function CheckoutProduct() {
         address: formData.address,
 
         delivery_method: formData.delivery,
-        delivery_fee: deliveryPrice,
-
-        payment_method: "cash", 
-
-        tax: tax,
-        subtotal_price: order,
-        total_price: subtotal,
+        payment_method: "cash",
 
         items: [
           {
@@ -93,19 +94,13 @@ export default function CheckoutProduct() {
             qty,
             size,
             variant: temperature,
-            price: finalPrice,
           },
         ],
       };
 
-      const res = await http("/transactions", {
+      const res = await http("/transactions", JSON.stringify(payload), {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer token`,
-        
-        },
-        body: JSON.stringify(payload),
+        token: token,
       });
 
       const data = await res.json();
@@ -117,7 +112,9 @@ export default function CheckoutProduct() {
       navigate("/history-order");
     } catch (err) {
       console.error(err);
-      alert(err.message);
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -126,7 +123,11 @@ export default function CheckoutProduct() {
       <h1 className="px-20 pt-20 pb-5 text-5xl font-semibold">
         Payment Details
       </h1>
-
+      {error && (
+        <div className="mb-4 rounded bg-red-100 px-4 py-2 text-red-600">
+          {error}
+        </div>
+      )}
       <form onSubmit={handleCheckout}>
         <section className="mt-10 grid grid-cols-[2fr_1fr] gap-8 px-18">
           {/* LEFT */}
