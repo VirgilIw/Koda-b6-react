@@ -97,8 +97,19 @@ export default function Navbar() {
                 {/* PROFILE TRIGGER */}
                 <div className="flex cursor-pointer items-center gap-2">
                   {/* Avatar */}
-                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-orange-400 font-bold text-black">
-                    {user?.email?.charAt(0)?.toUpperCase() || "U"}
+                  <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-orange-400 font-bold text-black">
+                    {user?.picture ? (
+                      <img
+                        src={`${import.meta.env.VITE_BASE_URL}/images/${encodeURIComponent(user.picture)}`}
+                        onError={(e) => (e.target.src = "/default-profile.png")}
+                        alt="profile"
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <span>
+                        {user?.email?.charAt(0)?.toUpperCase() || "U"}
+                      </span>
+                    )}
                   </div>
 
                   {/* Nama */}
