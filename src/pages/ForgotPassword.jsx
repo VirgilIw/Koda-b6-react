@@ -32,7 +32,6 @@ export default function ForgotPassword() {
         throw new Error(data.message || "Email not registered");
       }
 
-      console.log(data);
     } catch (error) {
       console.log(error);
       setError(error.message);
