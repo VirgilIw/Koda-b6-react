@@ -8,22 +8,23 @@ import { updateUser } from "../redux/slice/auth.slice";
 export default function Profile() {
   const [isPass, setIsPass] = React.useState(false);
   const [avatar, setAvatar] = React.useState("");
-  const [preview, setPreview] = React.useState("");
+  const [_, setPreview] = React.useState("");
   const [show, setShow] = React.useState({ old: false, new: false });
   const [errMessage, setErrMessage] = React.useState("");
   const [successMsg, setSuccessMsg] = React.useState("");
   const [formData, setFormData] = React.useState({
-    fullName: "Ghaluh Wizard",
-    email: "ghaluhwiz@gmail.com",
-    phone: "0821603438",
-    address: "Griya Bandung Indah",
+    fullName: "",
+    email: "",
+    phone: "",
+    address: "",
     oldPassword: "",
     newPassword: "",
   });
 
   const token = useSelector((state) => state.auth.token);
-  const user = useSelector((state) => state.auth);
+  const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -64,12 +65,11 @@ export default function Profile() {
         setErrMessage("Please fill in both password fields.");
         return;
       }
-      form.append("oldPassword", formData.oldPassword);
-      form.append("newPassword", formData.newPassword);
+      form.append("password", formData.newPassword);
     }
 
     try {
-      const res = await http("/users/profile", form, {
+      const res = await http("/admin/users", form, {
         method: "PATCH",
         token: token,
       });
@@ -80,6 +80,7 @@ export default function Profile() {
         setErrMessage(data?.message || "Failed to update profile.");
         return;
       }
+
       dispatch(updateUser(data.result));
       setSuccessMsg("Profile updated successfully!");
       setIsPass(false);
@@ -92,19 +93,18 @@ export default function Profile() {
   };
 
   React.useEffect(() => {
-    if (!user?.user) return;
+    if (!user) return;
 
     setFormData((prev) => ({
       ...prev,
-      fullName: user.user.fullname || "",
-      email: user.user.email || "",
-      phone: user.user.phone || "",
-      address: user.user.address || "",
+      fullName: user.fullname || "",
+      email: user.email || "",
+      phone: user.phone || "",
+      address: user.address || "",
     }));
   }, [user]);
-  const createdAt = user?.user?.Created_at;
-  console.log("FULL USER:", user.user);
-  console.log(createdAt,"nich");
+
+  const createdAt = user?.created_at;
   const formattedDate = createdAt
     ? new Date(createdAt).toLocaleDateString("en-GB", {
         day: "numeric",
@@ -112,6 +112,29 @@ export default function Profile() {
         year: "numeric",
       })
     : "-";
+
+  React.useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await http("/admin/users/me", null, {
+          token: token,
+        });
+
+        const data = await res.json();
+        console.log(data);
+        if (res.ok) {
+          dispatch(updateUser(data.result));
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    if (token) {
+      fetchUser();
+    }
+  }, [dispatch, token]);
+
   return (
     <div className="min-h-screen bg-gray-50 px-4 py-10 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
@@ -132,14 +155,13 @@ export default function Profile() {
               <div className="relative mx-auto mb-4 h-32 w-32">
                 <div className="h-full w-full overflow-hidden rounded-full bg-gray-200 ring-4 ring-orange-100">
                   <img
+                      // pakai encode karna ada spasi
                     src={
-                      preview
-                        ? preview
-                        : user?.user?.picture
-                          ? import.meta.env.VITE_BASE_URL + user.user.picture
-                          : "/default-avatar.png"
+                      user?.picture
+                        ? `${import.meta.env.VITE_BASE_URL}/images/${encodeURIComponent(user.picture)}`
+                        : "/default-profile.png"
                     }
-                    alt="Profile"
+                    alt="profile"
                     className="h-full w-full object-cover"
                   />
                 </div>
