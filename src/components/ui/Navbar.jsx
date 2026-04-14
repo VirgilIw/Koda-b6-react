@@ -1,8 +1,11 @@
 import React from "react";
 import cs from "../../assets/navbar/coffe.svg";
 import csBrown from "../../assets/navbar/coffe-shop.svg";
-import { NavLink, useLocation } from "react-router";
+import { NavLink, useLocation, useNavigate } from "react-router";
 import Cart from "../product/Cart";
+
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../../redux/slice/auth.slice";
 
 export default function Navbar() {
   const location = useLocation();
@@ -10,6 +13,16 @@ export default function Navbar() {
   const isAdmin = location.pathname.startsWith("/dashboard/admin");
 
   const [openCart, setOpenCart] = React.useState(false);
+
+  const dispatch = useDispatch();
+  const { user, token } = useSelector((state) => state.auth);
+
+  const navigate = useNavigate();
+
+  const handleLogOut = () => {
+    dispatch(logout());
+    navigate("/login");
+  };
 
   return (
     <>
@@ -62,6 +75,7 @@ export default function Navbar() {
 
           {/* RIGHT SIDE */}
           <div className="relative flex items-center justify-center gap-4 lg:justify-end">
+            {/* CART */}
             {!isAdmin && (
               <div className="relative">
                 <button
@@ -75,31 +89,76 @@ export default function Navbar() {
                   </span>
                 </button>
 
-                {/* 🔥 DROPDOWN */}
-                <Cart
-                  open={openCart}
-                  onClose={() => setOpenCart(false)}
-                />
+                <Cart open={openCart} onClose={() => setOpenCart(false)} />
               </div>
             )}
+            {token ? (
+              <div className="group relative">
+                {/* PROFILE TRIGGER */}
+                <div className="flex cursor-pointer items-center gap-2">
+                  {/* Avatar */}
+                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-orange-400 font-bold text-black">
+                    {user?.email?.charAt(0)?.toUpperCase() || "U"}
+                  </div>
 
-            <NavLink
-              to="/login"
-              className="rounded-md border border-current px-4 py-2 transition duration-200 hover:scale-105 hover:bg-white hover:text-black"
-            >
-              Sign In
-            </NavLink>
+                  {/* Nama */}
+                  <span className="hidden font-semibold lg:block">
+                    {user?.email || "User"}
+                  </span>
+                </div>
 
-            <NavLink
-              to="/register"
-              className="rounded-md bg-orange-400 px-4 py-2 text-black transition duration-200 hover:scale-105 hover:bg-orange-500"
-            >
-              Sign Up
-            </NavLink>
+                {/* DROPDOWN */}
+                <div className="invisible absolute top-12 right-0 w-48 translate-y-2 rounded-xl bg-white p-2 text-black opacity-0 shadow-lg transition-all duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
+                  {/* User Info */}
+                  <div className="border-b px-3 py-2">
+                    <p className="font-semibold">{user?.name}</p>
+                    <p className="text-sm text-gray-500">{user?.email}</p>
+                  </div>
+
+                  {/* Menu */}
+                  <NavLink
+                    to="/profile"
+                    className="block rounded-md px-3 py-2 hover:bg-gray-100"
+                  >
+                    Profile
+                  </NavLink>
+
+                  <NavLink
+                    to="/history-order"
+                    className="block rounded-md px-3 py-2 hover:bg-gray-100"
+                  >
+                    Orders
+                  </NavLink>
+
+                  {/* Logout */}
+                  <button
+                    onClick={handleLogOut}
+                    className="w-full rounded-md px-3 py-2 text-left text-red-500 hover:bg-red-50"
+                  >
+                    Logout
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <>
+                <NavLink
+                  to="/login"
+                  className="rounded-md border border-current px-4 py-2 transition duration-200 hover:scale-105 hover:bg-white hover:text-black"
+                >
+                  Sign In
+                </NavLink>
+
+                <NavLink
+                  to="/register"
+                  className="rounded-md bg-orange-400 px-4 py-2 text-black transition duration-200 hover:scale-105 hover:bg-orange-500"
+                >
+                  Sign Up
+                </NavLink>
+              </>
+            )}
           </div>
         </div>
       </section>
-
     </>
   );
 }
