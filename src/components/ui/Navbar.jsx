@@ -16,6 +16,7 @@ export default function Navbar() {
 
   const dispatch = useDispatch();
   const { user, token } = useSelector((state) => state.auth);
+  const isAdminUser = user?.role === "admin";
 
   const navigate = useNavigate();
 
@@ -126,7 +127,7 @@ export default function Navbar() {
                     <p className="text-sm text-gray-500">{user?.email}</p>
                   </div>
 
-                  {/* Menu */}
+                  {/* Profile */}
                   <NavLink
                     to="/profile"
                     className="block rounded-md px-3 py-2 hover:bg-gray-100"
@@ -134,6 +135,16 @@ export default function Navbar() {
                     Profile
                   </NavLink>
 
+                  {isAdminUser && (
+                    <NavLink
+                      to="/dashboard/admin"
+                      className="block rounded-md px-3 py-2 hover:bg-gray-100"
+                    >
+                      Dashboard
+                    </NavLink>
+                  )}
+
+                  {/* Orders */}
                   <NavLink
                     to="/history-order"
                     className="block rounded-md px-3 py-2 hover:bg-gray-100"
