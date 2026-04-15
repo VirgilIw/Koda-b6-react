@@ -423,7 +423,7 @@ This repository includes a GitHub Actions workflow under `.github/workflows/`. T
 
 MIT License
 
-Copyright (c) 2025 VirgilIw
+Copyright (c) 2026 VirgilIw
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
