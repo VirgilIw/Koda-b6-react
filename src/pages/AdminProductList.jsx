@@ -1,6 +1,7 @@
 import React from "react";
 import http from "../lib/http";
 import AdminAddProduct from "../components/admin/AdminAddProduct";
+import { useSelector } from "react-redux";
 
 export default function AdminProductList() {
   const [data, setData] = React.useState([]);
@@ -10,12 +11,13 @@ export default function AdminProductList() {
   const [total, setTotal] = React.useState(0);
   const limit = 6;
   const [add, setAdd] = React.useState(false);
+  const token = useSelector((state) => state.auth.token);
 
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
   React.useEffect(() => {
     (async () => {
       const res = await http(`/admin/products?page=${page}`);
       const json = await res.json();
-      console.log(json.result);
       setTotal(json.total);
       setData(json.result);
     })();
@@ -47,6 +49,31 @@ export default function AdminProductList() {
 
   const handleAddProduct = () => {
     setAdd(!add);
+  };
+
+
+
+  const handleDeleteProduct = async (id) => {
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/admin/products/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(text || "Failed to delete");
+      }
+
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -116,7 +143,11 @@ export default function AdminProductList() {
                 <td className="p-3">
                   <img
                     src={
-                      item.image || "http://localhost:8888/images/default.png"
+                      item.image
+                        ? item.image.startsWith("http")
+                          ? item.image
+                          : `${BASE_URL}${item.image}`
+                        : `${BASE_URL}/images/default.png`
                     }
                     alt={item.name}
                     className="h-14 w-14 rounded-lg object-cover"
@@ -167,7 +198,7 @@ export default function AdminProductList() {
                 <td className="p-3">
                   <div className="flex justify-center gap-2">
                     <button className="rounded px-3 py-1 text-white">✏️</button>
-                    <button className="rounded px-3 py-1 text-white">🗑️</button>
+                    <button className="rounded px-3 py-1 text-white" onClick={()=>handleDeleteProduct(item.id)}>🗑️</button>
                   </div>
                 </td>
               </tr>
