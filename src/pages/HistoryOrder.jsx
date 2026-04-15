@@ -5,6 +5,7 @@ import Message from "../assets/Order/Message.svg";
 import ArrowRight from "../assets/home/arrow-right.png";
 import http from "../lib/http";
 import { useSelector } from "react-redux";
+import { Link } from "react-router";
 
 export default function HistoryOrder() {
   const [isChatOpen, setIsChatOpen] = React.useState(false);
@@ -18,20 +19,17 @@ export default function HistoryOrder() {
 
     (async () => {
       try {
-        const res = await http(
-          "/transactions",
-          null,
-          {
-            method: "GET",
-            token: token,
-          }
-        );
+        const res = await http("/transactions", null, {
+          method: "GET",
+          token: token,
+        });
 
         if (!res.ok) {
           throw new Error("Failed to fetch transactions");
         }
 
         const data = await res.json();
+        console.log(data)
         setTransactions(data.result || []);
       } catch (err) {
         console.error(err);
@@ -43,7 +41,6 @@ export default function HistoryOrder() {
 
   return (
     <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 md:px-10 lg:px-16 xl:px-24">
-
       {/* HEADER */}
       <div>
         <h1 className="mt-24 flex gap-3 text-3xl font-medium md:text-5xl">
@@ -55,10 +52,8 @@ export default function HistoryOrder() {
       </div>
 
       <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-3">
-
         {/* LEFT */}
         <div className="lg:col-span-2">
-
           {/* FILTER */}
           <div className="mb-8 flex flex-col-reverse justify-between gap-5 md:flex-row">
             <div className="flex gap-1 rounded-lg bg-[#E8E8E899] p-1">
@@ -83,7 +78,6 @@ export default function HistoryOrder() {
 
           {/* LIST */}
           <div className="space-y-4">
-
             {loading && <p>Loading...</p>}
 
             {!loading && transactions.length === 0 && (
@@ -95,7 +89,6 @@ export default function HistoryOrder() {
                 key={item.id}
                 className="flex items-center justify-between rounded-lg bg-[#F8F8F8] p-4 shadow-sm"
               >
-
                 {/* LEFT */}
                 <div className="flex items-center gap-4">
                   <img
@@ -105,16 +98,14 @@ export default function HistoryOrder() {
                   />
 
                   <div className="text-sm">
-                    <p className="font-semibold text-gray-600">
-                      No. Order
-                    </p>
+                    <p className="font-semibold text-gray-600">No. Order</p>
                     <p className="font-bold text-gray-900">
                       {item.transaction_code}
                     </p>
 
-                    <button className="mt-1 text-xs font-medium text-orange-500">
+                    <Link to={item.id ? `/detail-order/${item.id}` : "#"}>
                       View Order Detail
-                    </button>
+                    </Link>
                   </div>
                 </div>
 
@@ -133,9 +124,7 @@ export default function HistoryOrder() {
                 {/* TOTAL */}
                 <div className="text-sm text-gray-600">
                   <p className="font-semibold">Total</p>
-                  <p>
-                    Idr {item.total_price?.toLocaleString("id-ID")}
-                  </p>
+                  <p>Idr {item.total_price?.toLocaleString("id-ID")}</p>
                 </div>
 
                 {/* STATUS */}
@@ -145,34 +134,28 @@ export default function HistoryOrder() {
                       item.status === "on_progress"
                         ? "bg-orange-100 text-orange-500"
                         : item.status === "completed"
-                        ? "bg-green-100 text-green-600"
-                        : "bg-gray-200 text-gray-600"
+                          ? "bg-green-100 text-green-600"
+                          : "bg-gray-200 text-gray-600"
                     }`}
                   >
                     {item.status}
                   </span>
                 </div>
-
               </div>
             ))}
-
           </div>
 
           {/* PAGINATION */}
           <div className="mt-12 mb-8 flex justify-center gap-3">
             {[1, 2, 3].map((page) => (
-              <button
-                key={page}
-                className="h-10 w-10 rounded-full bg-gray-200"
-              >
+              <button key={page} className="h-10 w-10 rounded-full bg-gray-200">
                 {page}
               </button>
             ))}
-            <button className="h-10 w-10 rounded-full bg-orange-400 flex items-center justify-center">
+            <button className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-400">
               <img src={ArrowRight} alt="Next" className="h-4 w-4" />
             </button>
           </div>
-
         </div>
 
         {/* RIGHT */}
@@ -200,7 +183,6 @@ export default function HistoryOrder() {
             />
           </div>
         </div>
-
       </div>
     </section>
   );
