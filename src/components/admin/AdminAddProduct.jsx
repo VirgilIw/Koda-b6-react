@@ -6,7 +6,8 @@ export default function AdminAddProduct({ onClose }) {
   const [preview, setPreview] = React.useState(null);
   const [sizes, setSizes] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
-
+  const [error, setError] = React.useState("");
+  const [success, setSuccess] = React.useState("");
   const [form, setForm] = React.useState({
     name: "",
     description: "",
@@ -76,38 +77,53 @@ export default function AdminAddProduct({ onClose }) {
 
   // submit
   const handleAddNewProduct = async () => {
+    setError("");
+    setSuccess("");
+
     if (!form.name || !form.price || !form.stock) {
-      alert("Name, price, and stock are required!");
+      setError("Name, price, and stock are required!");
       return;
     }
 
     setLoading(true);
 
     try {
-      const formData = new FormData();
+      const body = {
+        name: form.name,
+        description: form.description,
+        price: Number(form.price),
+        stock: Number(form.stock),
+        sizes: form.size,
+        images: form.file ? form.file.name : null,
+      };
 
-      formData.append("name", form.name);
-      formData.append("description", form.description);
-      formData.append("price", Number(form.price));
-      formData.append("stock", Number(form.stock));
+      const res = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/admin/products`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(body),
+        },
+      );
 
-      form.size.forEach((s) => {
-        formData.append("sizes[]", s);
-      });
-
-      formData.append("image", form.file);
-
-
-
-      const res = await http("/admin/products", formData, { method: "POST" });
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(text || "Failed request");
+      }
 
       const data = await res.json();
       console.log(data);
 
-      handleClose();
+      setSuccess("Product berhasil ditambahkan");
+
+      setTimeout(() => {
+        handleClose();
+      }, 1000);
     } catch (err) {
       console.error(err);
-      alert("Failed to add product. Please try again.");
+      setError("Failed to add product. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -125,7 +141,7 @@ export default function AdminAddProduct({ onClose }) {
 
       {/* Drawer */}
       <div
-        className={`ml-auto h-full w-full max-w-md transform bg-white p-5 shadow-xl transition-transform duration-300 overflow-y-auto ${
+        className={`ml-auto h-full w-full max-w-md transform overflow-y-auto bg-white p-5 shadow-xl transition-transform duration-300 ${
           open ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -242,15 +258,15 @@ export default function AdminAddProduct({ onClose }) {
               <label
                 key={item.id}
                 className={`cursor-pointer rounded-lg border px-3 py-1 text-sm ${
-                  form.size.includes(item.size_name)
+                  form.size.includes(item.id)
                     ? "border-orange-500 bg-orange-500 text-white"
                     : "hover:bg-orange-100"
                 }`}
               >
                 <input
                   type="checkbox"
-                  checked={form.size.includes(item.size_name)}
-                  onChange={() => handleSizeChange(item.size_name)}
+                  checked={form.size.includes(item.id)}
+                  onChange={() => handleSizeChange(item.id)}
                   className="hidden"
                 />
                 {item.size_name}
@@ -264,11 +280,26 @@ export default function AdminAddProduct({ onClose }) {
           onClick={handleAddNewProduct}
           disabled={loading}
           className={`w-full rounded-lg py-2 text-white transition-opacity ${
-            loading ? "cursor-not-allowed bg-orange-300" : "bg-orange-500 hover:bg-orange-600"
+            loading
+              ? "cursor-not-allowed bg-orange-300"
+              : "bg-orange-500 hover:bg-orange-600"
           }`}
         >
           {loading ? "Saving..." : "Save Product"}
         </button>
+        <div className="mt-2">
+          {error && (
+            <div className="mb-3 rounded bg-red-100 px-3 py-2 text-sm text-red-600">
+              {error}
+            </div>
+          )}
+
+          {success && (
+            <div className="mb-3 rounded bg-green-100 px-3 py-2 text-sm text-green-600">
+              {success}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
